@@ -1,0 +1,12 @@
+{% extends 'company/base.html' %}
+{% block content %}
+
+<h1>{{member_detail.name}}</h1>
+
+<h2>pozycja: {{member_detail.position}}</h2>
+
+{% if member_detail.is_senior %}
+<h2>senior</h2>
+{% endif %}
+
+{% endblock %}
