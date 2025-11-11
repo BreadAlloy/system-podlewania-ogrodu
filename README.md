@@ -30,3 +30,10 @@ w `settings.py` `INSTALLED_APPS` dodac nowy element `'apps.nazwa_aplikacji'`
 ./manage.sh makemigrations
 ./manage.sh migrate
 ```
+
+## Kontrola sekcji za pomocą gpio gotowa
+Jest plik snippetowy testy.py by zobaczyć jak sobie wyobrażam, że sie tego używa. 
+jest też konfiguracja.py gdzie możecie włączyć debug_poza_raspberry.
+Nie testowałem w innym miejscu niż raspberry więc jeśli nie działa to moja wina
+Oczywiście nie pip installujcie requirements_testy.txt na czymś innym niż raspberry.
+Też pewnie z requirements_gpio.txt musicie te biblioteki usunąć jeśli inny sprzęt.
