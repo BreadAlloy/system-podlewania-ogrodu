@@ -11,7 +11,7 @@ class przekaznik:
 
     def __init__(self, pin_number : int):
         if(not config.debug_poza_raspberry):
-            from gpiozero import LED # pip install gpiozero, lgpio, pigpio, rpigpio
+            from gpiozero import LED # pip install gpiozero, lgpio, pigpio
             self.pin = LED(pin_number);
             # wyłącz sekcje. Tak jest to dziwne jak ktoś ma pomysł jak to zrobić czytelniej to proszę o podpowiedź
             self.pin.on();

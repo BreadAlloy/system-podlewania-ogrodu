@@ -37,3 +37,4 @@ jest też konfiguracja.py gdzie możecie włączyć debug_poza_raspberry.
 Nie testowałem w innym miejscu niż raspberry więc jeśli nie działa to moja wina
 Oczywiście nie pip installujcie requirements_testy.txt na czymś innym niż raspberry.
 Też pewnie z requirements_gpio.txt musicie te biblioteki usunąć jeśli inny sprzęt.
+Może czegoś brakować w requirements_gpio.txt ale gpiozero jest tak zrobione że mówi czego brakuje.
