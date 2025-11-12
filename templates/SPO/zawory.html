@@ -1,0 +1,16 @@
+
+<h1>Zawory</h1>
+
+<p>Oto zawory</p>
+
+<ul>
+    {% for zawor in object_list %}
+
+    <p>{{zawor.name}} {{zawor.status}}</p>
+    <form action="{% url 'switch' zawor.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Przełącz</button>
+    </form>
+
+    {% endfor %}
+</ul>
