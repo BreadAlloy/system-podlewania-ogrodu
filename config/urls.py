@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.company.views import InheritanceTestView, PureTestView, function_based_view, HomeView, AboutView, TeamView, TeamMemberView
+from apps.SPO.views import ZaworyView, ZaworCreateView, ZaworONOFFView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -12,5 +13,9 @@ urlpatterns = [
     path("", HomeView.as_view(), name="home"),
     path("about/", AboutView.as_view(), name="about"),
     path("team/", TeamView.as_view(), name="team"),
-    path("team/<slug:team_member>/", TeamMemberView.as_view(), name="teammember")
+    path("team/<slug:team_member>/", TeamMemberView.as_view(), name="teammember"),
+
+    path("zawory/",ZaworyView.as_view(), name="zawory"),
+    path("zawory/create",ZaworCreateView.as_view(), name="zawor_create"),
+    path("zawory/<int:zawor_id>/",ZaworONOFFView, name="switch")
 ]

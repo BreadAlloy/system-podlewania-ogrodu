@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Internal
     'apps.company',
+    'apps.SPO',
 ]
 
 MIDDLEWARE = [
