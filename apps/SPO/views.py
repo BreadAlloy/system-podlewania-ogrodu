@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Zawor
 from .forms import ZaworForm, ONOFF
 from django.views import generic
+from hardware import sekcje
+from konfiguracja import *
+
 
 
 ZAWOR_DATA = [
@@ -60,10 +63,10 @@ class ZaworCreateView(CreateView):
 def ZaworONOFFView(request, zawor_id):
     zawor=get_object_or_404(Zawor, id=zawor_id)
     if request.method == "POST":
-        if zawor.status=='OFF':
-            zawor.status='ON'
+        if zawor.status==True:
+            zawor.status=False
         else:
-            zawor.status='OFF'
+            zawor.status=True
         zawor.save()
         return redirect('zawory')
 

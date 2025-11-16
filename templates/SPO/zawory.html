@@ -6,7 +6,7 @@
 <ul>
     {% for zawor in object_list %}
 
-    <p>{{zawor.name}} {{zawor.status}}</p>
+    <p>{{zawor.real_id}} {{zawor.status}}</p>
     <form action="{% url 'switch' zawor.id %}" method="post">
     {% csrf_token %}
     <button type="submit">Przełącz</button>

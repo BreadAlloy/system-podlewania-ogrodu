@@ -5,9 +5,9 @@ from .models import Zawor
 class ZaworForm(forms.ModelForm):
     class Meta:
         model = Zawor
-        fields = ['name', 'status']
+        fields = ['real_id', 'status']
 
 class ONOFF(forms.ModelForm):
     class Meta:
         model = Zawor
-        fields = ['name', 'status']
+        fields = ['real_id', 'status']
