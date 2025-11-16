@@ -1,20 +1,20 @@
 from django.core.management import BaseCommand
 import time
 from apps.SPO.models import Zawor
-from hardware import sekcje
-from konfiguracja import *
+from konfiguracja import * # możliwe, że hardware.py inaczej czyta plik konfikuracyjny, należy dbać aby tak nie było
+from hardware import aktywny, nieaktywny;
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #print("Started gpio-worker")
         #while True:
-        print("Gpio update begin")
+        print("Czytanie konfiguracji sprzetu")
         Zawor.objects.all().delete()
-        id_counter=0
-        for _, zawor_import in sekcje.przekazniki.items():
-            print(zawor_import)
-            Zawor.create(real_id=id_counter, status=zawor_import.stan)
-            id_counter+=1
-        print("Gpio update end")
+        print("Przeczytane sekcje:");
+        for index, C in config.rozpiska_sekcji.items():
+            name = C[0];
+            z = Zawor.objects.create(real_id=index, status=nieaktywny);
+            print(z);
+        print("Konfiguracja sprzetu przeczytana")
         #time.sleep(10)

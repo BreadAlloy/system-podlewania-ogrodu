@@ -28,6 +28,11 @@ class ZaworyView(ListView):
     model = Zawor
     template_name = 'SPO/zawory.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["zawory"] = Zawor.objects.order_by("real_id");
+        return context
+
 
 class ZaworCreateView(CreateView):
     model = Zawor

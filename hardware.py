@@ -43,23 +43,26 @@ class przekaznik:
         return f"przekaznik: {self.stan_str()}\n";
 
 class sekcje:
+    # id_sekcji : przekaznik
     przekazniki = {};
     
     def __init__(self):
-        for numer_sekcji, GPIOpin in config.rozpiska_sekcji.items():
+        for numer_sekcji, C in config.rozpiska_sekcji.items():
+            GPIOpin = C[1];
             self.przekazniki[numer_sekcji] = przekaznik(GPIOpin);
 
     def printuj_stan(self):
         """ Printowanie działa ale nie ma inputu z konsoli wraz z nim"""
 
-        print("\033[A\033[A\033[A\r", end = "");
+        # print("\033[A\033[A\033[A\r", end = "");  #cofanie o 3 linijki
         for _, zawor in self.przekazniki.items():
             if(zawor.stan == aktywny):
                 print("\033[42m  ", end = "");
             else:
                 print("\033[41m  ", end = "");
             print("\033[47m|", end = "");
-        print("\033[47m\n\n\n", end = "");
+        print("\033[40m\n", end = "");
+        # print("\033[40m\n\n\n", end = "");  #przewiniecie z powrotem do przodu o 3 linijki
 
 
     

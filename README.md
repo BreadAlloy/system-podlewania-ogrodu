@@ -38,3 +38,7 @@ Nie testowałem w innym miejscu niż raspberry więc jeśli nie działa to moja 
 Oczywiście nie pip installujcie requirements_testy.txt na czymś innym niż raspberry.
 Też pewnie z requirements_gpio.txt musicie te biblioteki usunąć jeśli inny sprzęt.
 Może czegoś brakować w requirements_gpio.txt ale gpiozero jest tak zrobione że mówi czego brakuje.
+
+## Kontrola sekcji przez stronę web prawie gotowa
+Ładnie można przełączać na stronie i gpio-worker to odczytuje. Ale pip install dockerowy nie potrafi zainstalować 2 bibliotek koniecznych do kontroli gpio. Sekcje mają nazwy teraz i należało by je dodać do modelu zaworu.
+

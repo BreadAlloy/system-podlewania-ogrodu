@@ -4,7 +4,7 @@
 <p>Oto zawory</p>
 
 <ul>
-    {% for zawor in object_list %}
+    {% for zawor in zawory %}
 
     <p>{{zawor.real_id}} {{zawor.status}}</p>
     <form action="{% url 'switch' zawor.id %}" method="post">
