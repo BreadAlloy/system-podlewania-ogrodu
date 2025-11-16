@@ -9,10 +9,10 @@ class konfiguracja:
     printuj_stan_przekaznikow = True or debug_poza_raspberry;
 
     pin_do_wodomierza = 26;
-    ilosc_wody_na_sygnal = 35; # ml/1, nie znam prawdziwej ilosci po prostu jakaś liczba
+    ilosc_wody_na_sygnal = 35.0; # ml/1, nie znam prawdziwej ilosci po prostu jakaś liczba
     
-    symulowany_wodomierz = False or debug_poza_raspberry;
-    symulowana_ilosc_wylewana = 155; # ml/s
+    symulowany_wodomierz = True or debug_poza_raspberry;
+    symulowana_ilosc_wylewana = 155.0; # ml/s * aktywna_sekcja
 
     czestotliwosc_operowania = 1.0; # hz | nie uwzglednia czasu pracy jednego odswiezenia;
 

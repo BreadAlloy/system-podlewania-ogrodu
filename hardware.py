@@ -1,5 +1,8 @@
 
 from konfiguracja import *
+import time
+import random
+import math
 
 # jest tak bo diody indykatorowe tak mam na płytce z przekaźnikami i raspberry taki stan ma defaultowo
 aktywny = True;
@@ -11,7 +14,7 @@ class przekaznik:
 
     def __init__(self, pin_number : int):
         if(not config.debug_poza_raspberry):
-            from gpiozero import LED # pip install gpiozero, lgpio, pigpio
+            from gpiozero import LED # pip install gpiozero, lgpio, pigpio, rpigpio
             self.pin = LED(pin_number);
             # wyłącz sekcje. Tak jest to dziwne jak ktoś ma pomysł jak to zrobić czytelniej to proszę o podpowiedź
             self.pin.on();
@@ -42,7 +45,7 @@ class przekaznik:
     def __str__(self):
         return f"przekaznik: {self.stan_str()}\n";
 
-class sekcje:
+class sekcje: # singleton
     # id_sekcji : przekaznik
     przekazniki = {};
     
@@ -64,5 +67,43 @@ class sekcje:
         print("\033[40m\n", end = "");
         # print("\033[40m\n\n\n", end = "");  #przewiniecie z powrotem do przodu o 3 linijki
 
+class wodomierz: # singleton
+    miernik = None;
+    liczba_sygnalow : int = 0;
+    sekcje_ptr = None; # musi znać stan sekcji aby symulować wylewanie wody gdy któraś sekcja jest aktywna
+    miernik_czasu = time.time();
+
+    def __init__(self, sekcje_ptr):
+        if(not config.symulowany_wodomierz):
+            from gpiozero import Button # pip install gpiozero, lgpio, pigpio, rpigpio
+            self.miernik = Button(config.pin_do_wodomierza);
+            self.miernik.when_pressed = lambda: self.sygnal();
+        self.sekcje_ptr = sekcje_ptr;
+
+    def stan_wodomierza(self):
+        return float(self.liczba_sygnalow) * config.ilosc_wody_na_sygnal;
+
+    def sygnal(self):
+        # print(f"Stan wodomierza: {self.stan_wodomierza()} ml");
+        self.liczba_sygnalow+=1;
+
+    def symulator(self):
+        nowy_czas = time.time();
+        ile_uplynelo = nowy_czas - self.miernik_czasu;
+        self.miernik_czasu = nowy_czas;
+
+        ile_jest_aktywnych = 0;
+        for _, z in self.sekcje_ptr.przekazniki.items():
+            if(z.stan == aktywny): ile_jest_aktywnych += 1;
+
+        ile_sygnalow_sie_nalezy = 0;
+        if(ile_jest_aktywnych != 0):
+            ile_sygnalow_sie_nalezy = ((config.symulowana_ilosc_wylewana / config.ilosc_wody_na_sygnal) * ile_uplynelo) * (2.0 * (-1.0/float(ile_jest_aktywnych) + 1.0) + 1.0);
+
+        ile_calych = math.floor(ile_sygnalow_sie_nalezy);
+        for i in range(0, ile_calych):
+            self.sygnal();
+        if(random.uniform(0.0, 1.0) < (ile_sygnalow_sie_nalezy - ile_calych)):
+            return self.sygnal();
 
     
