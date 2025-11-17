@@ -8,3 +8,4 @@ environs
 djangorestframework
 gpiozero
 pigpio
+lgpio

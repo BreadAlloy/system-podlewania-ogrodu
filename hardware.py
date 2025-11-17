@@ -14,7 +14,7 @@ class przekaznik:
 
     def __init__(self, pin_number : int):
         if(not config.debug_poza_raspberry):
-            from gpiozero import LED # pip install gpiozero, lgpio, pigpio, rpigpio
+            from gpiozero import LED # pip install gpiozero, lgpio, pigpio
             self.pin = LED(pin_number);
             # wyłącz sekcje. Tak jest to dziwne jak ktoś ma pomysł jak to zrobić czytelniej to proszę o podpowiedź
             self.pin.on();
@@ -75,7 +75,7 @@ class wodomierz: # singleton
 
     def __init__(self, sekcje_ptr):
         if(not config.symulowany_wodomierz):
-            from gpiozero import Button # pip install gpiozero, lgpio, pigpio, rpigpio
+            from gpiozero import Button # pip install gpiozero, lgpio, pigpio
             self.miernik = Button(config.pin_do_wodomierza);
             self.miernik.when_pressed = lambda: self.sygnal();
         self.sekcje_ptr = sekcje_ptr;
