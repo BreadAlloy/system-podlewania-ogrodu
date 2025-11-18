@@ -10,8 +10,9 @@ class Command(BaseCommand):
         #print("Started gpio-worker")
         #while True:
         print("Czytanie konfiguracji sprzetu")
-        Zawor.objects.all().delete()
-        print("Przeczytane sekcje:");
+        if Zawor.objects.exists():
+            Zawor.objects.all().delete()
+        print("Przeczytane sekcje:")
         for index, C in config.rozpiska_sekcji.items():
             name = C[0];
             z = Zawor.objects.create(real_id=index, status=nieaktywny);
