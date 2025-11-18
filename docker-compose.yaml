@@ -13,6 +13,10 @@ services:
       - ./config/.env
 
   gpio-worker:
+    profiles: [rpi]
+    privileged: true
+    devices:
+      - "/dev/gpiochip0:/dev/gpiochip0"
     build:
       context: .
       dockerfile: Dockerfile.gpio
@@ -22,6 +26,7 @@ services:
       - db
     env_file:
       - ./config/.env
+
   db:
     image: postgres:16.4-bullseye
     volumes:

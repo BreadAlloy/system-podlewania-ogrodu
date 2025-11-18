@@ -2,12 +2,18 @@
 
 ## przydatne komendy
 
-### uruchamianie (bedac w folderze system-podlewania-ogrodu)
+### uruchamianie (bez raspberrypi) (bedac w folderze system-podlewania-ogrodu)
 
 ```bash
 docker compose up --build
 ```
-webapp powinien byc dostepny w `http://localhost:8000` jezeli ktos uzyje WSL to trzeba wstawic ip wsl zamiast localhost
+webapp powinien byc dostepny w `http://localhost:8000`
+
+### uruchamianie (na raspberrypi)
+
+```bash
+docker compose --profile rpi up --build
+```
 
 ### usuwanie volumes
 ```bash

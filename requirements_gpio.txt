@@ -6,6 +6,3 @@ tzdata
 whitenoise
 environs
 djangorestframework
-gpiozero
-pigpio
-lgpio

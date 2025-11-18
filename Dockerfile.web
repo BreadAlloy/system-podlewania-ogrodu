@@ -7,8 +7,9 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    libpq-dev build-essential \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libpq-dev build-essential
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements_web.txt .
 RUN pip install --no-cache-dir -r requirements_web.txt
