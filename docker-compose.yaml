@@ -11,6 +11,8 @@ services:
       - db
     env_file:
       - ./config/.env
+    environment:
+      - RPI=${RPI}
 
   gpio-worker:
     privileged: true
@@ -25,7 +27,9 @@ services:
       - db
     env_file:
       - ./config/.env
-
+    environment:
+      - RPI=${RPI}
+      
   db:
     image: postgres:16.4-bullseye
     volumes:
