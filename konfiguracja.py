@@ -3,8 +3,10 @@ Tu się tylko czyta w trakcie działania programu
 Prosze nie pushujcie go na repo jak nic nie dodaliście
 """
 
+import os
+
 class konfiguracja:
-    debug_poza_raspberry = False;
+    debug_poza_raspberry = None;
     # Printowanie działa ale nie ma inputu z konsoli wraz z nim i czyni console brzydką
     printuj_stan_przekaznikow = True or debug_poza_raspberry;
 
@@ -35,5 +37,16 @@ class konfiguracja:
        13 : ("dodatkowa 4", 19),
        14 : ("dodatkowa 5", 21)
     };
+
+    def __init__(self):
+        RPI = os.environ.get("RPI");
+        if(RPI == "false" or RPI == "False"):
+            self.debug_poza_raspberry = True;
+        elif(RPI == "True" or RPI == "true" or RPI == ""):
+            self.debug_poza_raspberry = False;
+        else:
+            print("Nie wiadomo co zrobic ze zmienna srodowiskowa RPI");
+            assert(False);
+        print(f"Debug poza raspberry: {self.debug_poza_raspberry}");
 
 config = konfiguracja();
