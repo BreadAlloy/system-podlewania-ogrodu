@@ -8,10 +8,9 @@
 ./database_init.sh
 ```
 
-### uruchamianie (bez raspberrypi) (bedac w folderze system-podlewania-ogrodu)
+### uruchamianie (bez raspberrypi)
 
 ```bash
-./database_init.sh
 RPI=false docker compose up --build
 ```
 webapp powinien byc dostepny w `http://localhost:8000`
