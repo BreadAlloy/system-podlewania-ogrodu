@@ -13,7 +13,6 @@ services:
       - ./config/.env
 
   gpio-worker:
-    profiles: [rpi]
     privileged: true
     devices:
       - "/dev/gpiochip0:/dev/gpiochip0"

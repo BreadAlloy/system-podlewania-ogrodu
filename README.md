@@ -2,17 +2,24 @@
 
 ## przydatne komendy
 
+### migracje / tworzenie danych
+
+```bash
+./database_init.sh
+```
+
 ### uruchamianie (bez raspberrypi) (bedac w folderze system-podlewania-ogrodu)
 
 ```bash
-docker compose up --build
+./database_init.sh
+RPI=false docker compose up --build
 ```
 webapp powinien byc dostepny w `http://localhost:8000`
 
 ### uruchamianie (na raspberrypi)
 
 ```bash
-docker compose --profile rpi up --build
+docker compose up --build
 ```
 
 ### usuwanie volumes
