@@ -6,3 +6,5 @@ tzdata
 whitenoise
 environs
 djangorestframework
+rpi.gpio
+gpiozero

@@ -9,9 +9,6 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     libpq-dev build-essential
 
-RUN apt-get install --no-install-recommends -y \
-    python3-gpiozero
-
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements_gpio.txt .
