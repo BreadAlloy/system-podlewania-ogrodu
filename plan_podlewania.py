@@ -52,11 +52,12 @@ class program_podlewana:
         #defaultowo codziennie podlewa
         self.co_ile_dni_podlac = 1;
 
-    def zmodyfikuj_ilosc(self, id_sekcji : int, nowa_ilosc = float):
+    def zmodyfikuj_ilosc(self, id_sekcji : int, nowa_ilosc = float) -> None:
         for i in range(0, len(self.ilosci_podlewania)):
             if(self.ilosci_podlewania[i][0] == id_sekcji):
                 self.ilosci_podlewania[i][1] = nowa_ilosc;
-
+                return None;
+        assert(False); # Nie ma sekcji o takim id
 
     def tryb_str(self) -> str:
         if(self.tryb_podlewania == tryb_podlewania_czasem):
