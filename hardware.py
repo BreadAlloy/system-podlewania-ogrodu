@@ -47,7 +47,7 @@ class przekaznik:
 
 class sekcje: # singleton
     # id_sekcji : przekaznik
-    przekazniki = {};
+    przekazniki : dict[int, przekaznik] = {};
     
     def __init__(self):
         for numer_sekcji, C in config.rozpiska_sekcji.items():

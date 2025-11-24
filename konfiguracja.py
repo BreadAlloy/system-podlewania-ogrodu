@@ -7,7 +7,6 @@ import os
 
 class konfiguracja:
     debug_poza_raspberry = None;
-    # Printowanie działa ale nie ma inputu z konsoli wraz z nim i czyni console brzydką
     printuj_stan_przekaznikow = True or debug_poza_raspberry;
 
     pin_do_wodomierza = 26;
@@ -15,6 +14,8 @@ class konfiguracja:
     
     symulowany_wodomierz = True or debug_poza_raspberry;
     symulowana_ilosc_wylewana = 155.0; # ml/s * aktywna_sekcja
+
+    avg_litry_na_minute = 60.0;
 
     czestotliwosc_operowania = 1.0; # hz | nie uwzglednia czasu pracy jednego odswiezenia;
 
@@ -42,10 +43,10 @@ class konfiguracja:
         RPI = os.environ.get("RPI");
         if(RPI == "false" or RPI == "False"):
             self.debug_poza_raspberry = True;
-        elif(RPI == "True" or RPI == "true" or RPI == ""):
+        elif(RPI == "True" or RPI == "true" or RPI == "" or RPI == None):
             self.debug_poza_raspberry = False;
         else:
-            print("Nie wiadomo co zrobic ze zmienna srodowiskowa RPI");
+            print(f"Nie wiadomo co zrobic ze zmienna srodowiskowa RPI({RPI})");
             assert(False);
         print(f"Debug poza raspberry: {self.debug_poza_raspberry}");
 
