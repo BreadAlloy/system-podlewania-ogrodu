@@ -8,3 +8,4 @@ environs
 djangorestframework
 rpi.gpio
 gpiozero
+https://github.com/Gadgetoid/PY_LGPIO/releases/download/0.2.2.0/lgpio-0.2.2.0.tar.gz

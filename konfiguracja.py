@@ -6,13 +6,13 @@ Prosze nie pushujcie go na repo jak nic nie dodaliście
 import os
 
 class konfiguracja:
-    debug_poza_raspberry = None;
-    printuj_stan_przekaznikow = True or debug_poza_raspberry;
+    debug_poza_raspberry : bool;
+    printuj_stan_przekaznikow : bool = False;
 
     pin_do_wodomierza = 26;
     ilosc_wody_na_sygnal = 35.0; # ml/1, nie znam prawdziwej ilosci po prostu jakaś liczba
     
-    symulowany_wodomierz = True or debug_poza_raspberry;
+    symulowany_wodomierz : bool = False;
     symulowana_ilosc_wylewana = 155.0; # ml/s * aktywna_sekcja
 
     avg_litry_na_minute = 60.0;
@@ -49,5 +49,9 @@ class konfiguracja:
             print(f"Nie wiadomo co zrobic ze zmienna srodowiskowa RPI({RPI})");
             assert(False);
         print(f"Debug poza raspberry: {self.debug_poza_raspberry}");
+
+        #zależności w configu
+        self.symulowany_wodomierz = self.symulowany_wodomierz or self.debug_poza_raspberry;
+        self.printuj_stan_przekaznikow = self.printuj_stan_przekaznikow or self.debug_poza_raspberry;
 
 config = konfiguracja();
