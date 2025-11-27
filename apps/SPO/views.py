@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView, View
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,7 +8,7 @@ from django.views import generic
 from hardware import sekcje
 from konfiguracja import *
 
-
+test_value=0
 
 ZAWOR_DATA = [
     {'id': '0', 'name': 'Rainbird', 'status': 'ON'},
@@ -75,3 +75,15 @@ def ZaworONOFFView(request, zawor_id):
         zawor.save()
         return redirect('zawory')
 
+class WodomierzView(TemplateView):
+    template_name = "SPO/wodomierz.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            with open("wodomierz_value.txt", "r") as f:
+                sygnaly = f.read().strip()
+        except FileNotFoundError:
+            sygnaly = "N/A"
+        context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal
+        return context

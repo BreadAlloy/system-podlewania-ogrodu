@@ -1,5 +1,12 @@
-
+<head>
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script> <!-- Aktualnie odniesienie do skryptu, może być zamienione na instalację htmx'a -->
+</head>
+<body>
 <h1>Zawory</h1>
+
+<div hx-get="{% url 'wodomierz' %}" hx-trigger="load, every 1s">
+    Pobieranie danych wodomierza...
+</div>
 
 <p>Oto zawory</p>
 
@@ -14,3 +21,4 @@
 
     {% endfor %}
 </ul>
+</body>

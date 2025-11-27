@@ -44,7 +44,7 @@ class konfiguracja:
         if(RPI == "false" or RPI == "False"):
             self.debug_poza_raspberry = True;
         elif(RPI == "True" or RPI == "true" or RPI == "" or RPI == None):
-            self.debug_poza_raspberry = False;
+            self.debug_poza_raspberry = True;
         else:
             print(f"Nie wiadomo co zrobic ze zmienna srodowiskowa RPI({RPI})");
             assert(False);

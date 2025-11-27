@@ -26,4 +26,5 @@ if __name__ == '__main__':
             zawor.przelacz();
             if(config.symulowany_wodomierz): wodomierz.symulator();
             print(f"Stan wodomierza: {wodomierz.stan_wodomierza()} ml");
+            
 
