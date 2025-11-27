@@ -2,6 +2,11 @@ from pathlib import Path
 
 from environs import Env
 
+import logging
+from filters import IgnoreSpam
+
+logging.getLogger("django.server").addFilter(IgnoreSpam())
+
 env = Env()
 env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
