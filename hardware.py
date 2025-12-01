@@ -81,7 +81,7 @@ class wodomierz: # singleton
         self.sekcje_ptr = sekcje_ptr;
         try:     # użyj stanu zapamietanego jeśli istnieje
             with open("wodomierz_value.txt", "r") as f:
-                self.liczba_sygnalow = f.read().strip();
+                self.liczba_sygnalow = int(f.read().strip());
         except FileNotFoundError:
             self.liczba_sygnalow = 0;
 
