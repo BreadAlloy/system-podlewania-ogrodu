@@ -1,6 +1,6 @@
 
 from konfiguracja import *
-import time
+from czas import czas_globalny
 import random
 import math
 
@@ -71,7 +71,7 @@ class wodomierz: # singleton
     miernik = None;
     liczba_sygnalow : int = 0;
     sekcje_ptr = None; # musi znać stan sekcji aby symulować wylewanie wody gdy któraś sekcja jest aktywna
-    miernik_czasu = time.time();
+    miernik_czasu = czas_globalny.czas_od_epoch;
 
     def __init__(self, sekcje_ptr):
         if(not config.symulowany_wodomierz):
@@ -97,7 +97,7 @@ class wodomierz: # singleton
         self.liczba_sygnalow+=1;
 
     def symulator(self):
-        nowy_czas = time.time();
+        nowy_czas = czas_globalny.czas_od_epoch;
         ile_uplynelo = nowy_czas - self.miernik_czasu;
         self.miernik_czasu = nowy_czas;
 

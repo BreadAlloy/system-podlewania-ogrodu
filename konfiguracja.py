@@ -17,6 +17,9 @@ class konfiguracja:
 
     avg_litry_na_minute = 60.0;
 
+    czas_przyspieszony : bool = False;       # jak się używa to zapewne należy czestotliwość operowania zwiększyć
+    ile_przyspieszenia_na_update : int = 59; # sekundy | jak o za dużo na raz będzie zwiększać to może nie działać jakaś logika w programie. 59 powinno być bezpieczne.
+
     czestotliwosc_operowania = 1.0; # hz | nie uwzglednia czasu pracy jednego odswiezenia;
 
     # w normalnym uzytkowaniu nie będzie się używać "dodatkowa n" tylko po prostu się nie wpisze

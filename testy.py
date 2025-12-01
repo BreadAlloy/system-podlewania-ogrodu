@@ -1,6 +1,7 @@
 from hardware import sekcje, wodomierz
 from konfiguracja import *
 from time import sleep
+from czas import czas_globalny
 
 if __name__ == '__main__':
     print("Testowanie");
@@ -9,6 +10,11 @@ if __name__ == '__main__':
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
     
+    while(True):
+        sleep(1.0/config.czestotliwosc_operowania);
+        czas_globalny.update();
+        print(czas_globalny.ladny_str());
+
     print(sekcje.przekazniki);
     while(True):
         for _, zawor in sekcje.przekazniki.items():

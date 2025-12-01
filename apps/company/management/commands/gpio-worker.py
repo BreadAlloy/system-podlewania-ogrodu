@@ -2,9 +2,12 @@ from django.core.management import BaseCommand
 from apps.SPO.models import Zawor # komunikacja przez baze danych
 from konfiguracja import *
 from hardware import sekcje, wodomierz, aktywny, nieaktywny
+from czas import czas_globalny
 import time
 
 class Command(BaseCommand):
+
+    print(config.rozpiska_sekcji);
 
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
@@ -20,6 +23,7 @@ class Command(BaseCommand):
 
         while True:
             time.sleep(1.0/config.czestotliwosc_operowania);
+            czas_globalny.update();
             zawory_w_bazie = Zawor.objects.all();
             czy_cos_sie_zmienilo = False
             for z_baza in zawory_w_bazie:

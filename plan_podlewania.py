@@ -1,9 +1,5 @@
 from konfiguracja import config
-
-# coś do mierzenia czasu, godzina, nie wiem co dokładnie jeszcze
-class czas:
-    pass
-
+from czas import zegarek
 
 # w c++ były by to constexpry
 tryb_podlewania_czasem = True;
@@ -13,7 +9,7 @@ class program_podlewana:
 #---------------------------------POLA------------------------------------
     nazwa_programu : str; # aby było przyjemnie
 
-    godzina_rozpoczecia : czas | None; # tak jak powyżej nie wiem co to będzie
+    godzina_rozpoczecia : zegarek;
 
     tryb_podlewania : bool;
 
@@ -34,8 +30,8 @@ class program_podlewana:
 
         self.nazwa_programu = "PROGRAM PODLEWANIA";
 
-        # brakuje defaultowej godziny
-        self.godzina_rozpoczecia = None;
+        # defaultowo podlewa o północy
+        self.godzina_rozpoczecia = zegarek(00, 00);
 
         # defaultowo podlewa na podstawie czasu
         self.tryb_podlewania = tryb_podlewania_czasem;
