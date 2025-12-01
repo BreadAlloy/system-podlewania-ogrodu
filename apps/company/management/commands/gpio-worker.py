@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from apps.SPO.models import Zawor # komunikacja przez baze danych
 from konfiguracja import *
-from hardware import sekcje, wodomierz
+from hardware import sekcje, wodomierz, aktywny, nieaktywny
 import time
 
 class Command(BaseCommand):
@@ -13,6 +13,10 @@ class Command(BaseCommand):
         print("Started gpio-worker")
         self.sekcje.printuj_stan();
         wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
+
+        for z in Zawor.objects.all():
+            z.status = nieaktywny;
+            z.save();
 
         while True:
             time.sleep(1.0/config.czestotliwosc_operowania);
@@ -28,5 +32,14 @@ class Command(BaseCommand):
 
             if(config.symulowany_wodomierz): self.wodomierz.symulator();
             if(wczesniejszy_stan_wodomierza != self.wodomierz.stan_wodomierza()):
+                self.wodomierz.zapisz_stan();
                 print(f"Stan wodomierza: {self.wodomierz.stan_wodomierza()} ml");
                 wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
+
+
+""" 
+Jeśli np. pisze error 
+TypeError: wodomierz.zapisz_stan() missing 1 required positional argument: 'self'
+To najprawdopodobniej brakuje self przed wodomierz:
+Poprawine: SELF.wodomierz.zapisz_stan()
+"""

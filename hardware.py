@@ -79,8 +79,15 @@ class wodomierz: # singleton
             self.miernik = Button(config.pin_do_wodomierza);
             self.miernik.when_pressed = lambda: self.sygnal();
         self.sekcje_ptr = sekcje_ptr;
+        try:     # użyj stanu zapamietanego jeśli istnieje
+            with open("wodomierz_value.txt", "r") as f:
+                self.liczba_sygnalow = f.read().strip();
+        except FileNotFoundError:
+            self.liczba_sygnalow = 0;
+
+    def zapisz_stan(self):
         with open("wodomierz_value.txt", "w") as f:
-                f.write(str(0))
+            f.write(str(self.liczba_sygnalow))
 
     def stan_wodomierza(self):
         return float(self.liczba_sygnalow) * config.ilosc_wody_na_sygnal;
@@ -88,8 +95,6 @@ class wodomierz: # singleton
     def sygnal(self):
         # print(f"Stan wodomierza: {self.stan_wodomierza()} ml");
         self.liczba_sygnalow+=1;
-        with open("wodomierz_value.txt", "w") as f:
-                f.write(str(self.liczba_sygnalow))
 
     def symulator(self):
         nowy_czas = time.time();

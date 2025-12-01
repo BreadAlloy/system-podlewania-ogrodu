@@ -83,7 +83,9 @@ class WodomierzView(TemplateView):
         try:
             with open("wodomierz_value.txt", "r") as f:
                 sygnaly = f.read().strip()
+                context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal
+            
         except FileNotFoundError:
-            sygnaly = "N/A"
-        context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal
+            context["wodomierz_status"] = "Brakuje pliku";
+
         return context
