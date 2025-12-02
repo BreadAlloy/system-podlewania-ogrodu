@@ -1,5 +1,6 @@
 from konfiguracja import config
 from czas import zegarek, czas_globalny
+import time
 
 # w c++ były by to constexpry
 tryb_podlewania_czasem = True;
@@ -12,26 +13,34 @@ class ProgramBlock:
         self.sekcja = sekcja
         self.tryb = tryb
         self.ilosc = ilosc
-        if tryb == tryb_podlewania_czasem:
-            self.start_value = self.start_czas_od_epoch
-        else:
-            self.start_value = 0.0
-        self.current_value = self.start_value
 
     def zmodyfikuj_ilosc(self, next_ilosc: float):
         self.ilosc = next_ilosc
 
-    def add_delta(self, delta: float):
-        self.current_value += delta
-
-    def get_state(self):
-        if self.current_value - self.start_value > self.ilosc:
-            return False
-        else:
-            return True
-
     def __str__(self):
         return f"start: {self.start_czas_od_epoch} sekcja: {self.sekcja} tryb {self.tryb} ilosc: {self.ilosc}"
+
+class StateofProgramBlock:
+    def __init__(self, block: ProgramBlock):
+        self.program_block = block
+        self.current_value = 0
+        self.last_time = czas_globalny.czas_od_epoch
+        self.sekcja = block.sekcja
+        self.stan = False
+
+    def add_delta(self, delta: float): # w zaleznosci od trybu self.program_block.tryb albo delta czasu albo delta z wodomierza
+        self.current_value += delta
+
+    def update_state(self):
+        if self.current_value - self.start_value < self.program_block.ilosc:
+            self.stan = True
+        else:
+            self.stan = False
+
+    def get_state(self) -> bool:
+        return self.stan
+
+
 
 class program_podlewana:
 #---------------------------------POLA------------------------------------
@@ -141,13 +150,14 @@ class plan_podlewania:
     # później będą one modyfikowane jednorazowo w kalendarzu w webapp
     # Zrobię, ale jeszcze nie teraz.
 
-    programs_deletions: dict[(int, int), ProgramBlock] = {}
+    programs_changes: dict[(int, int), ProgramBlock] = {} # (timestamp, sekcja): Block
     free_blocks: list[ProgramBlock] = []
+    queue: list[StateofProgramBlock] = [] # currlenty active blocks
 
 #---------------------------------POLA------------------------------------
 
     def __init__(self):
-        pass
+        self.last_check_time = czas_globalny.czas_od_epoch
 
     def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
         # usuwa wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
@@ -155,34 +165,57 @@ class plan_podlewania:
         pass
 
     def change_ProgramBlock(self, timestamp: int, sekcja: int, block: ProgramBlock):
-        self.programs_deletions[(timestamp, sekcja)] = block
+        self.programs_changes[(timestamp, sekcja)] = block
 
-    def dodaj_program(self): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
-        pass
+    def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewana): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
+        self.programy[nazwa_programu] = nowy_program
 
     def usun_program(self, nazwa_programu : str):
         self.programy.pop(nazwa_programu)
 
     def wyczysc_kolejke_do_wykonania(self):
-        pass
+        self.queue = []
 
     def add_free_block(self, block: ProgramBlock):
         self.free_blocks.append(block)
 
-    def aktualne_stany_sekcji(self) -> dict:
-
-        planowe_zmiany = {}
+    def update_queue(self):
+        last_zegarek = zegarek()
+        last_zegarek.from_timestamp(self.last_check_time)
+        current_zegarek = zegarek()
+        current_zegarek.from_timestamp(czas_globalny.czas_od_epoch)
 
         # jezeli dzien tygodnia == true
         for program_name in self.programy.keys():
 
-            if self.programy[program_name].w_ktore_dni_tygodnia_podlewac[czas_globalny.get_weekday()]:
-                pass
-        
-        for block in self.free_blocks:
-            planowe_zmiany[block.sekcja] = block.should_end()
+            if self.programy[program_name].w_ktore_dni_tygodnia_podlewac[czas_globalny.get_weekday()] and \
+                last_zegarek.in_minutes() < self.programy[program_name].godzina_rozpoczecia.in_minutes() and \
+                self.programy[program_name].godzina_rozpoczecia.in_minutes() < current_zegarek.in_minutes():
 
-        return planowe_zmiany
+                for sekcja, value in self.programy[program_name].ilosci_podlewania:
+                    if value > 0:
+                        self.queue.append(StateofProgramBlock(ProgramBlock(czas_globalny.czas_od_epoch, sekcja, self.programy[program_name].tryb_podlewania, value)))
+        
+        for block in self.free_blocks: # jezeli w ostatnim okresie mial sie wlaczyc jakis free block to sie dodaje do queue
+            if self.last_check_time < block.start_czas_od_epoch and block.start_czas_od_epoch <= czas_globalny.czas_od_epoch:
+                self.queue.append(StateofProgramBlock(block))
+
+        for block in self.queue:
+            block.update_state()
+
+    def aktualne_stany_sekcji(self) -> dict:
+
+        self.update_queue()
+    
+        planowy_stan = {}
+        for sekcja in config.rozpiska_sekcji.keys():
+            planowy_stan[sekcja] = False
+
+        for block in self.queue:
+            if block.get_state():
+                planowy_stan[block.sekcja] = True
+
+        return planowy_stan
 
 
         # {sekvjaID: stan, } logika odnoscie aktualnego stanu (worker moze wlaczac przelaczniki za pomoca tego)

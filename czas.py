@@ -23,6 +23,9 @@ class czas_przyspieszalny:
 
     def get_weekday(self):
         return self.czas_stempel.tm_wday
+    
+    def get_time(self):
+        return self.czas_stempel.tm_hour, self.czas_stempel.tm_min
 
 czas_globalny = czas_przyspieszalny();
 
@@ -30,7 +33,7 @@ class zegarek:
     godzina : int;
     minuta : int;
 
-    def __init__(self, godzina, minuta):
+    def __init__(self, godzina: int = 0, minuta: int = 0):
         assert(godzina >= 0 and godzina < 24);
         assert(minuta >= 0 and minuta < 60);
         self.godzina = godzina;
@@ -38,3 +41,10 @@ class zegarek:
 
     def __str__(self):
         return f"{self.godzina:02}:{self.minuta:02}";
+
+    def in_minutes(self) -> int:
+        return self.godzina * 60 + self.minuta
+    
+    def from_timestamp(self, timestamp):
+        self.godzina = time.localtime(timestamp).tm_hour
+        self.minuta = time.localtime(timestamp).tm_min
