@@ -4,6 +4,7 @@ from konfiguracja import *
 from hardware import sekcje, wodomierz, aktywny, nieaktywny
 from czas import czas_globalny
 import time
+from plan_podlewania import plan_podlewania, ProgramBlock, tryb_podlewania_czasem
 
 class Command(BaseCommand):
 
@@ -11,6 +12,9 @@ class Command(BaseCommand):
 
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
+
+    plan = plan_podlewania()
+    plan.add_free_block(ProgramBlock(czas_globalny.czas_od_epoch + 5, 2, tryb_podlewania_czasem, 10))
 
     def handle(self, *args, **options):
         print("Started gpio-worker")
@@ -24,6 +28,10 @@ class Command(BaseCommand):
         while True:
             time.sleep(1.0/config.czestotliwosc_operowania);
             czas_globalny.update();
+
+            self.plan.update_queue(self.wodomierz.stan_wodomierza())
+            print(self.plan.aktualne_stany_sekcji())
+
             zawory_w_bazie = Zawor.objects.all();
             czy_cos_sie_zmienilo = False
             for z_baza in zawory_w_bazie:

@@ -32,7 +32,7 @@ class StateofProgramBlock:
         self.current_value += delta
 
     def update_state(self):
-        if self.current_value - self.start_value < self.program_block.ilosc:
+        if self.current_value < self.program_block.ilosc:
             self.stan = True
         else:
             self.stan = False
@@ -158,6 +158,7 @@ class plan_podlewania:
 
     def __init__(self):
         self.last_check_time = czas_globalny.czas_od_epoch
+        self.last_stan_wodomierza = 0
 
     def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
         # usuwa wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
@@ -179,7 +180,17 @@ class plan_podlewania:
     def add_free_block(self, block: ProgramBlock):
         self.free_blocks.append(block)
 
-    def update_queue(self):
+    def update_queue(self, stan_wodomierza: float):
+
+        # update juz stworzonej kolejki (nowe beda ustawione na default wartosci bo itak sa nowe)
+
+        for block in self.queue:
+            if block.program_block.tryb == tryb_podlewania_czasem:
+                block.add_delta(czas_globalny.czas_od_epoch - self.last_check_time)
+            else:
+                block.add_delta(stan_wodomierza - self.last_stan_wodomierza)
+
+
         last_zegarek = zegarek()
         last_zegarek.from_timestamp(self.last_check_time)
         current_zegarek = zegarek()
@@ -203,10 +214,13 @@ class plan_podlewania:
         for block in self.queue:
             block.update_state()
 
-    def aktualne_stany_sekcji(self) -> dict:
+        self.last_check_time = czas_globalny.czas_od_epoch
+        self.last_stan_wodomierza = stan_wodomierza
 
-        self.update_queue()
-    
+    def aktualne_stany_sekcji(self) -> dict:
+        """
+        przed sprawdzeniem stanow najlepiej wywolac update_queue
+        """
         planowy_stan = {}
         for sekcja in config.rozpiska_sekcji.keys():
             planowy_stan[sekcja] = False

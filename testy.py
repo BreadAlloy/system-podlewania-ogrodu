@@ -9,7 +9,7 @@ if __name__ == '__main__':
     print(config.rozpiska_sekcji);
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
-    
+
     while(True):
         sleep(1.0/config.czestotliwosc_operowania);
         czas_globalny.update();
