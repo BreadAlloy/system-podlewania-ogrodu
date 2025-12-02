@@ -1,9 +1,37 @@
 from konfiguracja import config
-from czas import zegarek
+from czas import zegarek, czas_globalny
 
 # w c++ były by to constexpry
 tryb_podlewania_czasem = True;
 tryb_podlewania_iloscia = False;
+
+# {timestamp: int, sekcje: int, tryb: bool, ilosc: czas|litry}
+class ProgramBlock:
+    def __init__(self, start_czas_od_epoch: int, sekcja: int, tryb: bool, ilosc: float = 0):
+        self.start_czas_od_epoch = start_czas_od_epoch
+        self.sekcja = sekcja
+        self.tryb = tryb
+        self.ilosc = ilosc
+        if tryb == tryb_podlewania_czasem:
+            self.start_value = self.start_czas_od_epoch
+        else:
+            self.start_value = 0.0
+        self.current_value = self.start_value
+
+    def zmodyfikuj_ilosc(self, next_ilosc: float):
+        self.ilosc = next_ilosc
+
+    def add_delta(self, delta: float):
+        self.current_value += delta
+
+    def get_state(self):
+        if self.current_value - self.start_value > self.ilosc:
+            return False
+        else:
+            return True
+
+    def __str__(self):
+        return f"start: {self.start_czas_od_epoch} sekcja: {self.sekcja} tryb {self.tryb} ilosc: {self.ilosc}"
 
 class program_podlewana:
 #---------------------------------POLA------------------------------------
@@ -113,6 +141,9 @@ class plan_podlewania:
     # później będą one modyfikowane jednorazowo w kalendarzu w webapp
     # Zrobię, ale jeszcze nie teraz.
 
+    programs_deletions: dict[(int, int), ProgramBlock] = {}
+    free_blocks: list[ProgramBlock] = []
+
 #---------------------------------POLA------------------------------------
 
     def __init__(self):
@@ -123,17 +154,45 @@ class plan_podlewania:
         nowy_program.czy_poprawny();
         pass
 
+    def change_ProgramBlock(self, timestamp: int, sekcja: int, block: ProgramBlock):
+        self.programs_deletions[(timestamp, sekcja)] = block
+
     def dodaj_program(self): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
         pass
 
     def usun_program(self, nazwa_programu : str):
-        pass
+        self.programy.pop(nazwa_programu)
 
     def wyczysc_kolejke_do_wykonania(self):
         pass
 
+    def add_free_block(self, block: ProgramBlock):
+        self.free_blocks.append(block)
+
+    def aktualne_stany_sekcji(self) -> dict:
+
+        planowe_zmiany = {}
+
+        # jezeli dzien tygodnia == true
+        for program_name in self.programy.keys():
+
+            if self.programy[program_name].w_ktore_dni_tygodnia_podlewac[czas_globalny.get_weekday()]:
+                pass
+        
+        for block in self.free_blocks:
+            planowe_zmiany[block.sekcja] = block.should_end()
+
+        return planowe_zmiany
 
 
+        # {sekvjaID: stan, } logika odnoscie aktualnego stanu (worker moze wlaczac przelaczniki za pomoca tego)
 
+    def usun_stare_bloki(self, timestamp):
+        pass
 
+    def load_plan(self):
+        pass # ladowanie planu z bazydanych (moze tymczasowo json)
 
+# Block = {timestamp: int, sekcje: int, tryb: bool, ilosc: czas|litry}
+# w plan dodac overwrite { (timestamp, sekcja): Block) }
+# w plan dodac free_blocks: Block[]
