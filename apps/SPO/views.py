@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, T
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Zawor
+from .models import Zawor, Wodomierz
 from .forms import ZaworForm, ONOFF
 from django.views import generic
 from hardware import sekcje
@@ -80,12 +80,6 @@ class WodomierzView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            with open("wodomierz_value.txt", "r") as f:
-                sygnaly = f.read().strip()
-                context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal
-            
-        except FileNotFoundError:
-            context["wodomierz_status"] = "Brakuje pliku";
-
+        sygnaly=Wodomierz.objects.get(pk=1).ilosc
+        context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal;
         return context

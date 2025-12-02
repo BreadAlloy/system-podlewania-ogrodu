@@ -1,6 +1,7 @@
 
 from konfiguracja import *
 from czas import czas_globalny
+from apps.SPO.models import Wodomierz
 import random
 import math
 
@@ -79,15 +80,19 @@ class wodomierz: # singleton
             self.miernik = Button(config.pin_do_wodomierza);
             self.miernik.when_pressed = lambda: self.sygnal();
         self.sekcje_ptr = sekcje_ptr;
-        try:     # użyj stanu zapamietanego jeśli istnieje
-            with open("wodomierz_value.txt", "r") as f:
-                self.liczba_sygnalow = int(f.read().strip());
-        except FileNotFoundError:
-            self.liczba_sygnalow = 0;
+
+        if Wodomierz.objects.filter(pk=1).exists():
+            wodomierz_odczyt=Wodomierz.objects.get(pk=1)
+            self.liczba_sygnalow=wodomierz_odczyt.ilosc
+        else:
+            wodomierz_nowy = Wodomierz()
+            wodomierz_nowy.save()
+            self.liczba_sygnalow=0
 
     def zapisz_stan(self):
-        with open("wodomierz_value.txt", "w") as f:
-            f.write(str(self.liczba_sygnalow))
+        wodomierz_zapis=Wodomierz.objects.get(pk=1)
+        wodomierz_zapis.ilosc=self.liczba_sygnalow
+        wodomierz_zapis.save()
 
     def stan_wodomierza(self):
         return float(self.liczba_sygnalow) * config.ilosc_wody_na_sygnal;

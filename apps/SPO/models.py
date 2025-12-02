@@ -9,3 +9,6 @@ class Zawor(models.Model):
     def __str__(self):
         return f"{self.real_id}: status - {self.status}"
 
+class Wodomierz(models.Model):
+    ilosc = models.IntegerField(default=0)
+
