@@ -4,6 +4,7 @@ from czas import czas_globalny
 from apps.SPO.models import Wodomierz
 import random
 import math
+from logger import logger_globalny, Waznosc
 
 # jest tak bo diody indykatorowe tak mam na płytce z przekaźnikami i raspberry taki stan ma defaultowo
 aktywny = True;
@@ -22,11 +23,13 @@ class przekaznik:
 
     def aktywuj(self):
         assert(self.stan == nieaktywny);
+        logger_globalny.log(f"aktywuje pin - {self.pin}", Waznosc.HARDWARE);
         if(not config.debug_poza_raspberry): self.pin.off(); # włącz sekcje
         self.stan = aktywny;
 
     def deaktywuj(self):
         assert(self.stan == aktywny);
+        logger_globalny.log(f"deaktywuje pin - {self.pin}", Waznosc.HARDWARE);
         if(not config.debug_poza_raspberry): self.pin.on(); # wyłącz sekcje
         self.stan = nieaktywny;
 

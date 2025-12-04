@@ -3,12 +3,14 @@ from apps.SPO.models import Zawor # komunikacja przez baze danych
 from konfiguracja import *
 from hardware import sekcje, wodomierz, aktywny, nieaktywny
 from czas import czas_globalny
-import time
 from plan_podlewania import plan_podlewania, ProgramBlock, tryb_podlewania_czasem
+import time # po time.sleep()
+from logger import logger_globalny
 
 class Command(BaseCommand):
 
     print(config.rozpiska_sekcji);
+    logger_globalny.przygotuj_do_pisania();
 
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
