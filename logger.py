@@ -1,4 +1,5 @@
 from czas import czas_globalny
+from konfiguracja import config
 
 class Waznosc:
     INFO = 0;
@@ -46,7 +47,10 @@ class Logger:
         # format wpisu to (czas) | (ważność) | (wiadomosc)\n
         # wiadomość ze znakami tylko w ascii
         assert(self.fd != 0); # plik nie przygotowany zapisu
-        self.fd.write(f"{czas_globalny.ladny_str()} | {waznosc_str(waznosc)} | {wiadomosc}\n");
+        do_zapisania = f"{czas_globalny.ladny_str()} | {waznosc_str(waznosc)} | {wiadomosc}\n";
+        if(config.printuj_logi):
+            print(do_zapisania, end = "");
+        self.fd.write(do_zapisania);
     
     def przeczytaj_logi(self) -> tuple[str, str, str, str]:
         with open(self.sciezka_pliku, 'r', encoding="ascii") as fd:

@@ -3,15 +3,28 @@ from konfiguracja import config
 
 # program operuje z dokładnoscią do minut
 
+sekundy_w_dniu = 60 * 60 * 24;
+
 class czas_przyspieszalny:
     czas_od_epoch : int = time.time();  # sekundy
     czas_stempel : time = time.localtime(czas_od_epoch);
+
+    def __init__(self, czas_od_epoch : int):
+        self.czas_od_epoch = czas_od_epoch;
+        self.czas_stempel = time.localtime(self.czas_od_epoch);
+
+    def copy(self):
+        return czas_przyspieszalny(self.czas_od_epoch);
 
     def update(self):
         if(config.czas_przyspieszony):
             self.czas_od_epoch += config.ile_przyspieszenia_na_update;
         else:
             self.czas_od_epoch  = time.time();
+        self.czas_stempel = time.localtime(self.czas_od_epoch);
+
+    def dodaj_czas(self, sekundy : int):
+        self.czas_od_epoch += sekundy;
         self.czas_stempel = time.localtime(self.czas_od_epoch);
 
     def ladny_str(self):
@@ -24,10 +37,13 @@ class czas_przyspieszalny:
     def get_weekday(self):
         return self.czas_stempel.tm_wday
     
-    def get_time(self):
+    def get_godzina(self):
         return self.czas_stempel.tm_hour, self.czas_stempel.tm_min
 
-czas_globalny = czas_przyspieszalny();
+    def __lt__(self, drugi):
+        return self.czas_od_epoch < drugi.czas_od_epoch;
+
+czas_globalny = czas_przyspieszalny(time.time());
 
 class zegarek:
     godzina : int;
