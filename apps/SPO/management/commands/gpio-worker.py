@@ -78,6 +78,10 @@ class Command(BaseCommand):
                 # print(f"Stan wodomierza: {self.wodomierz.stan_wodomierza()} ml");
                 wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
 
+            with open("plan_programow.txt", "w") as f:
+                for program in self.plan.programy.items():
+                    f.write(program[0]+"|"+str(program[1].godzina_rozpoczecia)+"|"+str(program[1].tryb_podlewania)+"|"+str(program[1].w_ktore_dni_tygodnia_podlewac)+"|"+str(program[1].ilosci_podlewania)+"|"+str(program[1].co_ile_dni_podlac)+"\n")
+
 
 """ 
 Jeśli np. pisze error 
