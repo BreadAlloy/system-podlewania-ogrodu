@@ -1,0 +1,9 @@
+<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; font-family: monospace;">
+    <h3>Logi Systemowe</h3>
+    {% for log in logs %}
+        <div style="border-bottom: 1px solid #ddd; padding: 2px;">{{ log }}</div>
+    {% empty %}
+        <div>Brak logów.</div>
+    {% endfor %}
+</div>
+<button onclick="location.reload()">Odśwież Logi</button>
