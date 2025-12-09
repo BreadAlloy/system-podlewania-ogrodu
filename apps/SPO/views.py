@@ -44,27 +44,6 @@ class ZaworCreateView(CreateView):
         # np. gdy byśmy chcieli ustawiać autora na zalogowanego usera: form.instance.author = self.request.user
     #    return super().form_valid(form)
 
-#class ZaworONOFFView(TemplateView):
-#    template_name = 'SPO/ONOFF.html'
-#
-#    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        pkreal=Zawor.objects.get(pk=1)
-#        context['form'] = ONOFF(instance=pkreal)
-#        return context
-#
-#    def post(self, request, *args, **kwargs):
-#        pkreal=Zawor.objects.get(pk=1)
-#        form = ONOFF(request.POST, instance=pkreal)
-#        if form.is_valid():
-#            new_zawor = form.save()
-#
-#            return redirect(reverse_lazy("zawory"))
-#
-#        context = self.get_context_data(**kwargs)
-#        context['form'] = form
-#        return self.render_to_response(context)
-
 def ZaworONOFFView(request, zawor_id):
     zawor=get_object_or_404(Zawor, id=zawor_id)
     if request.method == "POST":

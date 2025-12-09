@@ -1,5 +1,6 @@
 <head>
 <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script> <!-- Aktualnie odniesienie do skryptu, może być zamienione na instalację htmx'a -->
+<title>System Podlewania Ogrodu</title>
 </head>
 <body>
 <h1>Zawory</h1>
@@ -17,14 +18,13 @@
 
 <ul>
     {% for zawor in zawory %}
-
-    <div>{{zawor.real_id}} {{zawor.status}}
+    <div>
     <form action="{% url 'switch' zawor.id %}" method="post">
     {% csrf_token %}
+    {{zawor.real_id}} {% if zawor.status == True%} 🟩 {% else %} 🟥 {% endif %}
     <button type="submit">Przełącz</button>
     </form>
     </div>
-
     {% endfor %}
 </ul>
 </body>
