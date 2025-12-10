@@ -10,7 +10,6 @@ from logger import logger_globalny
 class Command(BaseCommand):
 
     print(config.rozpiska_sekcji);
-    logger_globalny.przygotuj_do_pisania();
 
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
@@ -38,18 +37,18 @@ class Command(BaseCommand):
             time.sleep(1.0/config.czestotliwosc_operowania);
             czas_globalny.update();
 
-            chciana_sekcja_planu = self.plan.update(self.wodomierz);
-
-            zawory_w_bazie = Zawor.objects.all();
             czy_cos_sie_zmienilo = False;
 
             if(self.sterowanie_reczne):
+                zawory_w_bazie = Zawor.objects.all();
                 for z_baza in zawory_w_bazie:
                     z_sprzet = self.sekcje.przekazniki[z_baza.real_id]
                     if(z_baza.status != z_sprzet.stan):   # sprzet i baza inaczej nazywają to samo pole, pewnie by trzeba to poprawić
                         z_sprzet.przelacz();
                         czy_cos_sie_zmienilo = True;
             else:
+                chciana_sekcja_planu = self.plan.update(self.wodomierz);
+
                 for index, zawor in self.sekcje.przekazniki.items():
                     if(chciana_sekcja_planu is not None and index == chciana_sekcja_planu):
                         if(zawor.stan == nieaktywny):
@@ -59,7 +58,16 @@ class Command(BaseCommand):
                         if(zawor.stan == aktywny):
                             zawor.przelacz();
                             czy_cos_sie_zmienilo = True;
-                    zawory_w_bazie[index].status = zawor.stan;
+
+                # Z jakiegoś nieznanego mi powodu
+                #   zawory_w_bazie = Zawor.objects.order_by("real_id");
+                #   zawory_w_bazie[index].status = zawor.stan;
+                # Nie działa
+
+                for z in Zawor.objects.all():
+                    if(z.status != self.sekcje.przekazniki[z.real_id].stan):
+                        z.status = self.sekcje.przekazniki[z.real_id].stan;
+                        z.save();
 
             if(config.printuj_stan_przekaznikow and czy_cos_sie_zmienilo):
                 self.sekcje.printuj_stan();

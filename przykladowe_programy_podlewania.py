@@ -1,8 +1,8 @@
-from plan_podlewania import program_podlewana, tryb_podlewania_czasem, tryb_podlewania_iloscia, plan_podlewania
+from plan_podlewania import program_podlewania, tryb_podlewania_czasem, tryb_podlewania_iloscia, plan_podlewania
 from czas import zegarek
 
-def przykladowy_program_podlewania_1() -> program_podlewana:
-    program = program_podlewana();
+def przykladowy_program_podlewania_1() -> program_podlewania:
+    program = program_podlewania();
     program.nazwa_programu = "Podlewanie trawy";
     program.godzina_rozpoczecia = zegarek(2, 00); #2:00
     program.tryb_podlewania = tryb_podlewania_czasem;
@@ -17,8 +17,8 @@ def przykladowy_program_podlewania_1() -> program_podlewana:
     program.co_ile_dni_podlac = 2;
     return program;
 
-def przykladowy_program_podlewania_2() -> program_podlewana:
-    program = program_podlewana();
+def przykladowy_program_podlewania_2() -> program_podlewania:
+    program = program_podlewania();
     program.nazwa_programu = "Podlewanie nowych drzew";
     program.godzina_rozpoczecia = zegarek(00, 00); # 24:00
     program.tryb_podlewania = tryb_podlewania_czasem;
@@ -27,8 +27,8 @@ def przykladowy_program_podlewania_2() -> program_podlewana:
     program.co_ile_dni_podlac = 1;
     return program;
 
-def przykladowy_program_podlewania_3() -> program_podlewana:
-    program = program_podlewana();
+def przykladowy_program_podlewania_3() -> program_podlewania:
+    program = program_podlewania();
     program.nazwa_programu = "Podlewanie rabatek wieczorem";
     program.godzina_rozpoczecia = zegarek(21, 00); # 21:00
     program.tryb_podlewania = tryb_podlewania_iloscia;
@@ -38,8 +38,8 @@ def przykladowy_program_podlewania_3() -> program_podlewana:
     program.co_ile_dni_podlac = 1;
     return program;
 
-def przykladowy_program_podlewania_4() -> program_podlewana:
-    program = program_podlewana();
+def przykladowy_program_podlewania_4() -> program_podlewania:
+    program = program_podlewania();
     program.nazwa_programu = "Podlewanie rabatek nad ranem";
     program.godzina_rozpoczecia = zegarek(5, 00); # 5:00
     program.tryb_podlewania = tryb_podlewania_iloscia;
@@ -49,8 +49,8 @@ def przykladowy_program_podlewania_4() -> program_podlewana:
     program.co_ile_dni_podlac = 1;
     return program;
 
-def przykladowy_program_podlewania_5() -> program_podlewana:
-    program = program_podlewana();
+def przykladowy_program_podlewania_5() -> program_podlewania:
+    program = program_podlewania();
     program.nazwa_programu = "Podlewanie dodatkowe";
     program.godzina_rozpoczecia = zegarek(12, 00); # 12:00
     program.tryb_podlewania = tryb_podlewania_czasem;

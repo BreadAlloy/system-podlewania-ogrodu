@@ -7,7 +7,7 @@ from .forms import ZaworForm, ONOFF
 from django.views import generic
 from hardware import sekcje
 from konfiguracja import *
-from apps.SPO.logger import SystemLogger
+from logger import logger_globalny # do odczytu logów, niekoniecznie do zapisywania
 
 test_value=0
 
@@ -40,12 +40,6 @@ class ZaworCreateView(CreateView):
     fields = ['name', 'status']
     template_name = 'SPO/zawor_form.html'
     success_url = reverse_lazy('zawory')
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        logger = SystemLogger()
-        logger.log(f"Utworzono nowy zawór: {self.object.name}")
-        return response
     
     #def form_valid(self, form):
         # np. gdy byśmy chcieli ustawiać autora na zalogowanego usera: form.instance.author = self.request.user
@@ -73,28 +67,14 @@ class ZaworCreateView(CreateView):
 #        return self.render_to_response(context)
 
 def ZaworONOFFView(request, zawor_id):
-    logger = SystemLogger()
-    
-    try:
-        # Próba pobrania i zmiany zaworu
-        zawor = get_object_or_404(Zawor, id=zawor_id)
+    zawor = get_object_or_404(Zawor, id=zawor_id)
+    if request.method == "POST":
+        if zawor.status == True:
+            zawor.status = False
+        else:
+            zawor.status = True
         
-        if request.method == "POST":
-            if zawor.status == True:
-                zawor.status = False
-            else:
-                zawor.status = True
-            
-            zawor.save()
-
-            # Sukces - logujemy normalnie
-            stan_tekst = "WŁĄCZONY" if zawor.status else "WYŁĄCZONY"
-            logger.log(f"Przełączono zawór '{zawor.name}' (ID: {zawor.real_id}) na stan: {stan_tekst}")
-
-    except Exception as e:
-        logger.log(f"BŁĄD KRYTYCZNY przy zaworze ID {zawor_id}: {e}")
-        print(f"DEBUG ERROR: {e}")
-
+        zawor.save()
     return redirect('zawory')
 
 class WodomierzView(TemplateView):
@@ -108,10 +88,8 @@ class WodomierzView(TemplateView):
     
 class LogiView(View):
     def get(self, request):
-        logger = SystemLogger()
-        #ustawilem ostatnie 50 logow 
-        logs = logger.get_logs(limit=50)
-        return render(request, 'SPO/logi_partial.html', {'logs': logs})
+        logs_info, logs_warningi, logs_krytyczne, logs_hardware = logger_globalny.przeczytaj_logi();
+        return render(request, 'SPO/logi_partial.html', {'logs_info': logs_info, 'logs_warningi': logs_warningi, 'logs_krytyczne': logs_krytyczne, 'logs_hardware': logs_hardware})
 
 class PlanProgramowView(TemplateView):
     template_name = "SPO/plan.html"

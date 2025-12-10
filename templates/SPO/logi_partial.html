@@ -1,9 +1,36 @@
-<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; font-family: monospace;">
-    <h3>Logi Systemowe</h3>
-    {% for log in logs %}
+<body>
+<h1>Zdarzenia podlewania</h1>
+<button onclick="location.reload()">Odśwież Logi</button>
+    <h3>Logi KRYTYCZNE</h3>
+<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 130px; overflow-y: scroll; font-family: monospace;">
+    {% for log in logs_krytyczne %}
         <div style="border-bottom: 1px solid #ddd; padding: 2px;">{{ log }}</div>
     {% empty %}
         <div>Brak logów.</div>
     {% endfor %}
 </div>
-<button onclick="location.reload()">Odśwież Logi</button>
+    <h3>Logi WARNING</h3>
+<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 130px; overflow-y: scroll; font-family: monospace;">
+    {% for log in logs_warningi %}
+        <div style="border-bottom: 1px solid #ddd; padding: 2px;">{{ log }}</div>
+    {% empty %}
+        <div>Brak logów.</div>
+    {% endfor %}
+</div>
+    <h3>Logi INFO</h3>
+<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; font-family: monospace;">
+    {% for log in logs_info %}
+        <div style="border-bottom: 1px solid #ddd; padding: 2px;">{{ log }}</div>
+    {% empty %}
+        <div>Brak logów.</div>
+    {% endfor %}
+</div>
+    <h3>Logi HARDWARE</h3>
+<div style="background-color: #f4f4f4; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; font-family: monospace;">
+    {% for log in logs_hardware %}
+        <div style="border-bottom: 1px solid #ddd; padding: 2px;">{{ log }}</div>
+    {% empty %}
+        <div>Brak logów.</div>
+    {% endfor %}
+</div>
+</body>

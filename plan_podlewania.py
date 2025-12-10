@@ -71,7 +71,7 @@ class StateofProgramBlock:
             if(self.wylal_wody > self.program_block.ilosc):
                 self.stan = False;
         if(self.stan == False):
-            logger_globalny.log(f"Zakonczono podlewanie po: {self.sekundy_trwania} sekundach i {self.wylal_wody} ml wylanej wody", Waznosc.INFO);
+            logger_globalny.log(f"Zakonczono podlewanie na sekcji: {self.program_block.sekcja} po: {self.sekundy_trwania} sekundach i {self.wylal_wody} ml wylanej wody", Waznosc.INFO);
         return self.stan;
 
     def get_state(self) -> bool:
