@@ -12,13 +12,15 @@ class konfiguracja:
     pin_do_wodomierza = 26;
     ilosc_wody_na_sygnal = 35.0; # ml/1, nie znam prawdziwej ilosci po prostu jakaś liczba
     
-    symulowany_wodomierz : bool = False;
-    symulowana_ilosc_wylewana = 155.0; # ml/s * aktywna_sekcja
+    avg_litry_na_minute = 25.0;    # l/min
 
-    avg_litry_na_minute = 60.0;
+    symulowany_wodomierz : bool = True;
+    symulowana_ilosc_wylewana = avg_litry_na_minute * 1000.0 / 60.0; # ml/s * aktywna_sekcja
+
+    printuj_logi = True;
 
     czas_przyspieszony : bool = False;       # jak się używa to zapewne należy czestotliwość operowania zwiększyć
-    ile_przyspieszenia_na_update : int = 59; # sekundy | jak o za dużo na raz będzie zwiększać to może nie działać jakaś logika w programie. 59 powinno być bezpieczne.
+    ile_przyspieszenia_na_update : int = 60; # sekundy | jak o za dużo na raz będzie zwiększać to może nie działać jakaś logika w programie. 59 powinno być bezpieczne.
 
     czestotliwosc_operowania = 1.0; # hz | nie uwzglednia czasu pracy jednego odswiezenia;
 
@@ -47,7 +49,7 @@ class konfiguracja:
         if(RPI == "false" or RPI == "False"):
             self.debug_poza_raspberry = True;
         elif(RPI == "True" or RPI == "true" or RPI == "" or RPI == None):
-            self.debug_poza_raspberry = True;
+            self.debug_poza_raspberry = False;
         else:
             print(f"Nie wiadomo co zrobic ze zmienna srodowiskowa RPI({RPI})");
             assert(False);

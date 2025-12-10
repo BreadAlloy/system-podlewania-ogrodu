@@ -4,6 +4,7 @@ from czas import czas_globalny
 from apps.SPO.models import Wodomierz
 import random
 import math
+from logger import logger_globalny, Waznosc
 
 # jest tak bo diody indykatorowe tak mam na płytce z przekaźnikami i raspberry taki stan ma defaultowo
 aktywny = True;
@@ -12,8 +13,10 @@ nieaktywny = False;
 class przekaznik:
     stan : bool = nieaktywny;
     pin = None;
+    pin_number : int;
 
     def __init__(self, pin_number : int):
+        self.pin_number = pin_number;
         if(not config.debug_poza_raspberry):
             from gpiozero import LED # pip install gpiozero, lgpio, pigpio
             self.pin = LED(pin_number);
@@ -22,11 +25,13 @@ class przekaznik:
 
     def aktywuj(self):
         assert(self.stan == nieaktywny);
+        logger_globalny.log(f"aktywuje pin - {self.pin_number}", Waznosc.HARDWARE);
         if(not config.debug_poza_raspberry): self.pin.off(); # włącz sekcje
         self.stan = aktywny;
 
     def deaktywuj(self):
         assert(self.stan == aktywny);
+        logger_globalny.log(f"deaktywuje pin - {self.pin_number}", Waznosc.HARDWARE);
         if(not config.debug_poza_raspberry): self.pin.on(); # wyłącz sekcje
         self.stan = nieaktywny;
 

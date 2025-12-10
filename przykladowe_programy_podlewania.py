@@ -1,4 +1,4 @@
-from plan_podlewania import program_podlewana, tryb_podlewania_czasem, tryb_podlewania_iloscia
+from plan_podlewania import program_podlewana, tryb_podlewania_czasem, tryb_podlewania_iloscia, plan_podlewania
 from czas import zegarek
 
 def przykladowy_program_podlewania_1() -> program_podlewana:
@@ -64,19 +64,40 @@ def przykladowy_program_podlewania_5() -> program_podlewana:
     return program;
 
 # TESTY
-p1 = przykladowy_program_podlewania_1();
-p2 = przykladowy_program_podlewania_2();
-p3 = przykladowy_program_podlewania_3();
-p4 = przykladowy_program_podlewania_4();
-p5 = przykladowy_program_podlewania_5();
-print(p1);
-print(p2);
-print(p3);
-print(p4);
-print(p5);
-print("="*70);
-p5.przelacz_tryb_podlewania()
-print(p5);
-p5.przelacz_tryb_podlewania()
-print(p5);
+
+# p1 = przykladowy_program_podlewania_1();
+# p2 = przykladowy_program_podlewania_2();
+# p3 = przykladowy_program_podlewania_3();
+# p4 = przykladowy_program_podlewania_4();
+# p5 = przykladowy_program_podlewania_5();
+# print(p1);
+# print(p2);
+# print(p3);
+# print(p4);
+# print(p5);
+# print("="*70);
+# p5.przelacz_tryb_podlewania()
+# print(p5);
+# p5.przelacz_tryb_podlewania()
+# print(p5);
+
+# plan = plan_podlewania();
+# plan.dodaj_program(p1.nazwa_programu, p1);
+# plan.dodaj_program(p2.nazwa_programu, p2);
+# plan.dodaj_program(p3.nazwa_programu, p3);
+# plan.dodaj_program(p4.nazwa_programu, p4);
+# plan.dodaj_program(p5.nazwa_programu, p5);
+
+# # print(plan.przyszle_ProgramBloki);
+# # print(plan.przyszle_ProgramBloki[0]);
+# temp = plan.przyszle_ProgramBloki.copy();
+# import heapq
+# while(len(temp) > 0):
+#     print(heapq.heappop(temp));
+
+# import time
+# while(True):
+#     time.sleep(1.0);
+#     plan.update();
+
 #TESTY

@@ -112,3 +112,21 @@ class LogiView(View):
         #ustawilem ostatnie 50 logow 
         logs = logger.get_logs(limit=50)
         return render(request, 'SPO/logi_partial.html', {'logs': logs})
+
+class PlanProgramowView(TemplateView):
+    template_name = "SPO/plan.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        programy=[]
+        try:
+            with open("plan_programow.txt", "r") as f:
+                for l in f:
+                    program = l.strip().split("|")
+                    programy.append(program)
+                    program[3]=eval(program[3])
+                    program[4]=eval(program[4])
+        except FileNotFoundError:
+            pass
+        context["plan"] = programy
+        return context

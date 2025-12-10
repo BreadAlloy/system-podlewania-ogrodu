@@ -8,16 +8,22 @@
     Pobieranie danych wodomierza...
 </div>
 
-<p>Oto zawory</p>
+<div hx-get="{% url 'plan_programow' %}" hx-trigger="load, every 10s">
+    Pobieranie danych planu...
+</div>
+
+
+<h3>Oto zawory:</h3>
 
 <ul>
     {% for zawor in zawory %}
 
-    <p>{{zawor.real_id}} {{zawor.status}}</p>
+    <div>{{zawor.real_id}} {{zawor.status}}
     <form action="{% url 'switch' zawor.id %}" method="post">
     {% csrf_token %}
     <button type="submit">Przełącz</button>
     </form>
+    </div>
 
     {% endfor %}
 </ul>

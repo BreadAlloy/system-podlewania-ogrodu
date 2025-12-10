@@ -1,0 +1,19 @@
+<h3>Oto programy:</h3>
+
+<ul>
+    {% for program in plan %}
+    <p>
+    <div>{{program.0}}</div>
+    <div>Godz. Rozpoczęcia: {{program.1}}, Tryb Podlewania: {% if program.2 == "True"%} Tak {% else %} Nie {% endif %}</div>
+    <div>Pon. {% if program.3.0 == True%} Tak {% else %} Nie {% endif %} 
+        | Wt. {% if program.3.1 == True%} Tak {% else %} Nie {% endif %} 
+        | Śr. {% if program.3.2 == True%} Tak {% else %} Nie {% endif %}
+        | Czw. {% if program.3.3 == True%} Tak {% else %} Nie {% endif %}
+        | Piąt. {% if program.3.4 == True%} Tak {% else %} Nie {% endif %}
+        | Sob. {% if program.3.5 == True%} Tak {% else %} Nie {% endif %}
+        | Nied. {% if program.3.6 == True%} Tak {% else %} Nie {% endif %}</div>
+    <div>{% for sekcja in program.4 %} {{sekcja.0}} - {{sekcja.1}}ml | {% endfor %}</div>
+    <div>Podlewanie {% if program.5 == "1"%} codziennie {% else %} co {{program.5}} dni {% endif %}</div>
+    </p>
+    {% endfor %}
+</ul>
