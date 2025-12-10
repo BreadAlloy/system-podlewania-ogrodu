@@ -8,6 +8,6 @@ urlpatterns = [
     path("zawory/create", ZaworCreateView.as_view(), name="zawor_create"),
     path("zawory/<int:zawor_id>/", ZaworONOFFView, name="switch"),
     path("wodomierz/", WodomierzView.as_view(), name="wodomierz"),
-    path("plan/",PlanProgramowView.as_view(), name="plan_programow")
+    path("plan/",PlanProgramowView.as_view(), name="plan_programow"),
     path('logi/', LogiView.as_view(), name='logi')
 ]

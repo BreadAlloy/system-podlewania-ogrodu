@@ -64,3 +64,7 @@ class zegarek:
     def from_timestamp(self, timestamp):
         self.godzina = time.localtime(timestamp).tm_hour
         self.minuta = time.localtime(timestamp).tm_min
+
+    def from_str(self, ciag : str):
+        podzielone = ciag.split(":");
+        return zegarek(int(podzielone[0]), int(podzielone[1]));

@@ -22,21 +22,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print("Started gpio-worker")
 
-        from przykladowe_programy_podlewania import przykladowy_program_podlewania_1, przykladowy_program_podlewania_2, przykladowy_program_podlewania_3, przykladowy_program_podlewania_4, przykladowy_program_podlewania_5
-        p1 = przykladowy_program_podlewania_1();
-        p2 = przykladowy_program_podlewania_2();
-        p3 = przykladowy_program_podlewania_3();
-        p4 = przykladowy_program_podlewania_4();
-        p5 = przykladowy_program_podlewania_5();
-
-        self.plan.dodaj_program(p1.nazwa_programu, p1);
-        self.plan.dodaj_program(p2.nazwa_programu, p2);
-        self.plan.dodaj_program(p3.nazwa_programu, p3);
-        self.plan.dodaj_program(p4.nazwa_programu, p4);
-        self.plan.dodaj_program(p5.nazwa_programu, p5);
-
         self.sekcje.printuj_stan();
         wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
+
+        self.plan.przeczytaj_programy_z_pliku();
+
+        for p in self.plan.programy.values():
+            print(p);
 
         for z in Zawor.objects.all():
             z.status = nieaktywny;
