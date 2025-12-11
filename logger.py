@@ -32,25 +32,19 @@ def str_waznosc(waznosc : str):
 
 # co jakiś czas pewnie należy skasować plik loga
 class Logger:
-    fd : int = 0;  # file descriptor
     sciezka_pliku : str;         
 
-    def __init__(self, sciezka_pliku = "logi.txt"):
+    def __init__(self, sciezka_pliku = config.plik_z_logiem):
         self.sciezka_pliku = sciezka_pliku;
-
-    def przygotuj_do_pisania(self):
-        # wywołuje się tylko jeśli zamierza się pisać do pliku, przeczytać można bez tego
-        assert(self.fd == 0); # został już przygotowany do pisania
-        self.fd = open(self.sciezka_pliku, 'a', encoding="ascii"); # ascii, aby plik mniejszy był
 
     def log(self, wiadomosc, waznosc : int = Waznosc.INFO) -> None:
         # format wpisu to (czas) | (ważność) | (wiadomosc)\n
         # wiadomość ze znakami tylko w ascii
-        assert(self.fd != 0); # plik nie przygotowany zapisu
-        do_zapisania = f"{czas_globalny.ladny_str()} | {waznosc_str(waznosc)} | {wiadomosc}\n";
-        if(config.printuj_logi):
-            print(do_zapisania, end = "");
-        self.fd.write(do_zapisania);
+        with open(self.sciezka_pliku, 'a', encoding="ascii") as fd:
+            do_zapisania = f"{czas_globalny.ladny_str()} | {waznosc_str(waznosc)} | {wiadomosc}\n";
+            if(config.printuj_logi):
+                print(do_zapisania, end = "");
+            fd.write(do_zapisania);
     
     def przeczytaj_logi(self) -> tuple[str, str, str, str]:
         with open(self.sciezka_pliku, 'r', encoding="ascii") as fd:
@@ -78,11 +72,8 @@ class Logger:
             else:
                 assert(False);
 
-        return info, warningi, krytyczne, hardware;
-
-    def __del__(self):
-        if(self.fd != 0):
-            self.fd.close();
+        # index 0 to najnowszy log
+        return info[::-1], warningi[::-1], krytyczne[::-1], hardware[::-1];
 
 logger_globalny = Logger();
 

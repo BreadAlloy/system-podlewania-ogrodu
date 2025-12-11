@@ -3,6 +3,7 @@ from czas import zegarek, czas_globalny, czas_przyspieszalny, sekundy_w_dniu
 import time
 from logger import logger_globalny, Waznosc
 import heapq
+import json
 from hardware import wodomierz
 
 # w c++ były by to constexpry
@@ -70,13 +71,13 @@ class StateofProgramBlock:
             if(self.wylal_wody > self.program_block.ilosc):
                 self.stan = False;
         if(self.stan == False):
-            logger_globalny.log(f"Zakonczono podlewanie po: {self.sekundy_trwania} sekundach i {self.wylal_wody} ml wylanej wody", Waznosc.INFO);
+            logger_globalny.log(f"Zakonczono podlewanie na sekcji: {self.program_block.sekcja} po: {self.sekundy_trwania} sekundach i {self.wylal_wody} ml wylanej wody", Waznosc.INFO);
         return self.stan;
 
     def get_state(self) -> bool:
         return self.stan
 
-class program_podlewana:
+class program_podlewania:
 #---------------------------------POLA------------------------------------
     nazwa_programu : str; # aby było przyjemnie
 
@@ -221,12 +222,74 @@ co ile dni podlewać: {self.co_ile_dni_podlac}
 
         return bloki;
 
+    def to_dict(self) -> dict:
+        # Rozpoznawanie trybu (na podstawie Twojego pliku plan_podlewania.py)
+        tryb_str = "CZAS (min)" if self.tryb_podlewania else "ILOSC (litry)"
+
+        program_dict = {
+            'nazwa': self.nazwa_programu,
+            # rzutujemy zegarek na str, bo JSON nie ogarnia obiektów
+            'godzina_start': str(self.godzina_rozpoczecia), 
+            'tryb': tryb_str,
+            'co_ile_dni': self.co_ile_dni_podlac,
+            'dni_tygodnia': {
+                'Pon': self.w_ktore_dni_tygodnia_podlewac[0],
+                'Wt': self.w_ktore_dni_tygodnia_podlewac[1],
+                'Sr': self.w_ktore_dni_tygodnia_podlewac[2],
+                'Czw': self.w_ktore_dni_tygodnia_podlewac[3],
+                'Pt': self.w_ktore_dni_tygodnia_podlewac[4],
+                'Sob': self.w_ktore_dni_tygodnia_podlewac[5],
+                'Nd': self.w_ktore_dni_tygodnia_podlewac[6],
+            },
+            'sekcje': []
+        }
+
+        # Dodajemy info o sekcjach (tylko te, które mają > 0 podlewania)
+        for sekcja in self.ilosci_podlewania:
+            # sekcja to lista [id, ilosc]
+            id_sekcji = sekcja[0]
+            ilosc = sekcja[1]
+            
+            program_dict['sekcje'].append({
+                'id_sekcji': id_sekcji,
+                'ilosc': ilosc
+            })
+        
+        return program_dict;
+
+    def from_dict(self, program_dict : dict) -> None:
+        # ręcznie będe iść po polach aby wychwycić możliwe błędy
+        self.nazwa_programu = program_dict["nazwa"];
+        self.godzina_rozpoczecia = zegarek().from_str(program_dict["godzina_start"]);
+        if(program_dict["tryb"] == "CZAS (min)"):
+            self.tryb_podlewania = tryb_podlewania_czasem;
+        elif(program_dict["tryb"] == "ILOSC (litry)"):
+            self.tryb_podlewania = tryb_podlewania_iloscia;
+        else:
+            assert(False); # Niemożliwy tryb
+        dozwolone_dni = program_dict["dni_tygodnia"];
+        assert(len(dozwolone_dni) == 7); # Jest inna ilość dni w tygodniu niż 7
+
+        self.w_ktore_dni_tygodnia_podlewac[0] = dozwolone_dni["Pon"];
+        self.w_ktore_dni_tygodnia_podlewac[1] = dozwolone_dni["Wt"];
+        self.w_ktore_dni_tygodnia_podlewac[2] = dozwolone_dni["Sr"];
+        self.w_ktore_dni_tygodnia_podlewac[3] = dozwolone_dni["Czw"];
+        self.w_ktore_dni_tygodnia_podlewac[4] = dozwolone_dni["Pt"];
+        self.w_ktore_dni_tygodnia_podlewac[5] = dozwolone_dni["Sob"];
+        self.w_ktore_dni_tygodnia_podlewac[6] = dozwolone_dni["Nd"];
+
+        ilosci_wczytywne = program_dict["sekcje"];
+        assert(len(ilosci_wczytywne) == len(self.ilosci_podlewania)); # inna ilość sekcji niż w configu
+        for i in ilosci_wczytywne:
+            id_sekcji = i["id_sekcji"]; ilosc = i["ilosc"];
+            self.zmodyfikuj_ilosc(id_sekcji, ilosc); # zassertuje jeśli taka sekcja nie istnieje
+
 
 class plan_podlewania:
 #---------------------------------POLA------------------------------------
 
     #           {nazwa_programu : program}
-    programy : dict[str, program_podlewana] = {};
+    programy : dict[str, program_podlewania] = {};
     # !!!!!! ZAKAZ MODYFIKOWANIA PÓL W PROGRAMACH PODLEWANIA TUTAJ !!!!!!!
 
     wykonywane_ProgramBloki : list[StateofProgramBlock];  # kolejka po momencie dodania do listy
@@ -246,7 +309,8 @@ class plan_podlewania:
         pass
 
     # dodaj program i zintegruj jego bloku z pozostałymi
-    def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewana): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
+    def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewania): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
+        assert(nazwa_programu not in self.programy.keys());
         self.programy[nazwa_programu] = nowy_program;
         nowe_bloki = nowy_program.daj_ProgramBlocki();
         for blok in nowe_bloki:
@@ -289,3 +353,20 @@ class plan_podlewania:
                 return self.wykonywane_ProgramBloki[0].program_block.sekcja;
         else:
             return None;
+
+    def zapisz_programy_do_pliku(self):
+        data_to_export = [];
+        for p in self.programy.values():
+            data_to_export.append(p.to_dict());
+
+        with open(config.plik_z_programami_podlewania, 'w', encoding='ascii') as f:
+            json.dump(data_to_export, f, indent=2, ensure_ascii=True);
+
+    def przeczytaj_programy_z_pliku(self):
+        assert(len(self.programy) == 0); # Niekoniecznie błąd ale wydaje mi się, że będą czytane jako konstruktor
+        with open(config.plik_z_programami_podlewania, 'r', encoding='ascii') as fd:
+            program_dicty = json.load(fd);
+            for p in program_dicty:
+                przeczytany_program = program_podlewania();
+                przeczytany_program.from_dict(p);
+                self.dodaj_program(przeczytany_program.nazwa_programu, przeczytany_program);

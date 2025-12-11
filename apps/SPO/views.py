@@ -7,6 +7,7 @@ from .forms import ZaworForm, ONOFF
 from django.views import generic
 from hardware import sekcje
 from konfiguracja import *
+from logger import logger_globalny # do odczytu logów, niekoniecznie do zapisywania
 
 test_value=0
 
@@ -39,20 +40,21 @@ class ZaworCreateView(CreateView):
     fields = ['name', 'status']
     template_name = 'SPO/zawor_form.html'
     success_url = reverse_lazy('zawory')
-
+    
     #def form_valid(self, form):
         # np. gdy byśmy chcieli ustawiać autora na zalogowanego usera: form.instance.author = self.request.user
     #    return super().form_valid(form)
 
 def ZaworONOFFView(request, zawor_id):
-    zawor=get_object_or_404(Zawor, id=zawor_id)
+    zawor = get_object_or_404(Zawor, id=zawor_id)
     if request.method == "POST":
-        if zawor.status==True:
-            zawor.status=False
+        if zawor.status == True:
+            zawor.status = False
         else:
-            zawor.status=True
+            zawor.status = True
+        
         zawor.save()
-        return redirect('zawory')
+    return redirect('zawory')
 
 class WodomierzView(TemplateView):
     template_name = "SPO/wodomierz.html"
@@ -62,6 +64,11 @@ class WodomierzView(TemplateView):
         sygnaly=Wodomierz.objects.get(pk=1).ilosc
         context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal;
         return context
+    
+class LogiView(View):
+    def get(self, request):
+        logs_info, logs_warningi, logs_krytyczne, logs_hardware = logger_globalny.przeczytaj_logi();
+        return render(request, 'SPO/logi_partial.html', {'logs_info': logs_info, 'logs_warningi': logs_warningi, 'logs_krytyczne': logs_krytyczne, 'logs_hardware': logs_hardware})
 
 class PlanProgramowView(TemplateView):
     template_name = "SPO/plan.html"

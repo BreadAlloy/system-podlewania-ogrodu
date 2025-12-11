@@ -1,0 +1,6 @@
+2025-12-09 12:05:47 | Wykonano eksport planów do JSON.
+2025-12-09 12:10:57 | BŁĄD KRYTYCZNY przy zaworze ID 16: 'Zawor' object has no attribute 'name'
+2025-12-09 12:11:00 | BŁĄD KRYTYCZNY przy zaworze ID 16: 'Zawor' object has no attribute 'name'
+2025-12-09 13:08:21 | BŁĄD KRYTYCZNY przy zaworze ID 16: 'Zawor' object has no attribute 'name'
+2025-12-09 13:09:30 | BŁĄD KRYTYCZNY przy zaworze ID 16: 'Zawor' object has no attribute 'name'
+2025-12-09 13:09:55 | BŁĄD KRYTYCZNY przy zaworze ID 17: 'Zawor' object has no attribute 'name'

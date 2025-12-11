@@ -10,7 +10,6 @@ from logger import logger_globalny
 class Command(BaseCommand):
 
     print(config.rozpiska_sekcji);
-    logger_globalny.przygotuj_do_pisania();
 
     sekcje = sekcje();
     wodomierz = wodomierz(sekcje);
@@ -22,21 +21,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print("Started gpio-worker")
 
-        from przykladowe_programy_podlewania import przykladowy_program_podlewania_1, przykladowy_program_podlewania_2, przykladowy_program_podlewania_3, przykladowy_program_podlewania_4, przykladowy_program_podlewania_5
-        p1 = przykladowy_program_podlewania_1();
-        p2 = przykladowy_program_podlewania_2();
-        p3 = przykladowy_program_podlewania_3();
-        p4 = przykladowy_program_podlewania_4();
-        p5 = przykladowy_program_podlewania_5();
-
-        self.plan.dodaj_program(p1.nazwa_programu, p1);
-        self.plan.dodaj_program(p2.nazwa_programu, p2);
-        self.plan.dodaj_program(p3.nazwa_programu, p3);
-        self.plan.dodaj_program(p4.nazwa_programu, p4);
-        self.plan.dodaj_program(p5.nazwa_programu, p5);
-
         self.sekcje.printuj_stan();
         wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
+
+        self.plan.przeczytaj_programy_z_pliku();
+
+        for p in self.plan.programy.values():
+            print(p);
 
         for z in Zawor.objects.all():
             z.status = nieaktywny;
@@ -46,18 +37,18 @@ class Command(BaseCommand):
             time.sleep(1.0/config.czestotliwosc_operowania);
             czas_globalny.update();
 
-            chciana_sekcja_planu = self.plan.update(self.wodomierz);
-
-            zawory_w_bazie = Zawor.objects.all();
             czy_cos_sie_zmienilo = False;
 
             if(self.sterowanie_reczne):
+                zawory_w_bazie = Zawor.objects.all();
                 for z_baza in zawory_w_bazie:
                     z_sprzet = self.sekcje.przekazniki[z_baza.real_id]
                     if(z_baza.status != z_sprzet.stan):   # sprzet i baza inaczej nazywają to samo pole, pewnie by trzeba to poprawić
                         z_sprzet.przelacz();
                         czy_cos_sie_zmienilo = True;
             else:
+                chciana_sekcja_planu = self.plan.update(self.wodomierz);
+
                 for index, zawor in self.sekcje.przekazniki.items():
                     if(chciana_sekcja_planu is not None and index == chciana_sekcja_planu):
                         if(zawor.stan == nieaktywny):
@@ -67,7 +58,16 @@ class Command(BaseCommand):
                         if(zawor.stan == aktywny):
                             zawor.przelacz();
                             czy_cos_sie_zmienilo = True;
-                    zawory_w_bazie[index].status = zawor.stan;
+
+                # Z jakiegoś nieznanego mi powodu
+                #   zawory_w_bazie = Zawor.objects.order_by("real_id");
+                #   zawory_w_bazie[index].status = zawor.stan;
+                # Nie działa
+
+                for z in Zawor.objects.all():
+                    if(z.status != self.sekcje.przekazniki[z.real_id].stan):
+                        z.status = self.sekcje.przekazniki[z.real_id].stan;
+                        z.save();
 
             if(config.printuj_stan_przekaznikow and czy_cos_sie_zmienilo):
                 self.sekcje.printuj_stan();
