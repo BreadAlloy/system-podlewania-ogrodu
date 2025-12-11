@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from apps.SPO.logger import SystemLogger
 
-# Dodajemy ścieżkę główną projektu, aby Python widział pliki z roota (np. przykladowe_programy...)
+# Dodajemy ścieżkę główną projektu, aby Python widział pliki z roota
 sys.path.append(str(settings.BASE_DIR))
 
 class Command(BaseCommand):
@@ -14,7 +14,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger = SystemLogger()
         
-        # 1. Próba importu konkretnych zmiennych z pliku kolegi
         try:
             from przykladowe_programy_podlewania import p1, p2, p3, p4, p5
             # Tworzymy listę ręcznie, bo w tamtym pliku są to luźne zmienne
@@ -28,10 +27,8 @@ class Command(BaseCommand):
 
         self.stdout.write(f"Znaleziono {len(lista_programow)} przykładowych programów. Przetwarzanie...")
 
-        # 2. Konwersja obiektów Python (program_podlewana) na słowniki (JSON)
         for program in lista_programow:
             try:
-                # Rozpoznawanie trybu (na podstawie Twojego pliku plan_podlewania.py)
                 tryb_str = "CZAS (min)" if program.tryb_podlewania else "ILOŚĆ (litry)"
 
                 program_dict = {
@@ -52,7 +49,6 @@ class Command(BaseCommand):
                     'sekcje': []
                 }
 
-                # Dodajemy info o sekcjach (tylko te, które mają > 0 podlewania)
                 for sekcja in program.ilosci_podlewania:
                     # sekcja to lista [id, ilosc]
                     id_sekcji = sekcja[0]
