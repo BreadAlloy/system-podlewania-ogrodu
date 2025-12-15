@@ -172,8 +172,13 @@ co ile dni podlewać: {self.co_ile_dni_podlac}
                 i[1] = i[1] / config.avg_litry_na_minute;
         self.tryb_podlewania = not self.tryb_podlewania;
 
-    def czy_poprawny() -> bool:
-        return False;
+    def czy_poprawny(self) -> bool:
+        ret = True;
+        ret |= (len(self.w_ktore_dni_tygodnia_podlewac) == 7);
+        ret |= (self.co_ile_dni_podlac != 0);
+        for id_sekcji, _ in self.ilosci_podlewania:
+            ret |= (id_sekcji in config.rozpiska_sekcji.keys());
+        return ret;
 
     # używa się tylko po dodniu programu do planu, albo przy inicjalizacji
     def daj_ProgramBlocki(self) -> list[ProgramBlock]:
@@ -303,18 +308,37 @@ class plan_podlewania:
         self.przyszle_ProgramBloki = [];
         self.wykonywane_ProgramBloki = []; # przeważnie tu powinien być jeden obiekt ale w wypadku kolizji mogą być kilka
 
-    def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
-        # usuwa wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
-        nowy_program.czy_poprawny();
-        pass
+    def usun_program(self, nazwa_programu : str):
+        if(nazwa_programu not in self.programy.keys()):
+            print("Nie ma programu z taka nazwa"); return;
+
+        for i, blok in enumerate(self.przyszle_ProgramBloki):
+            if(blok.program.nazwa_programu == nazwa_programu):
+                self.przyszle_ProgramBloki.pop(i);
+
+        self.programy.pop(nazwa_programu);
 
     # dodaj program i zintegruj jego bloku z pozostałymi
     def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewania): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
-        assert(nazwa_programu not in self.programy.keys());
+        if(nazwa_programu in self.programy.keys()): # nazwa musi byc unikatowa
+            print("Program nie ma nazwy unikatowej"); return;
+        assert(nazwa_programu == nowy_program.nazwa_programu); 
+
+        nowy_program.czy_poprawny();
         self.programy[nazwa_programu] = nowy_program;
         nowe_bloki = nowy_program.daj_ProgramBlocki();
         for blok in nowe_bloki:
             heapq.heappush(self.przyszle_ProgramBloki, blok);
+
+    def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
+        # będzie usuwać wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
+        # agresywnie usuwa stary program, może by nie musiał
+        if(nazwa_programu not in self.programy.keys()):
+            print("Jest juz program z taka nazwa"); return;
+
+        assert(nowy_program.czy_poprawny());
+        self.usun_program(program_podlewania.nazwa_programu, program_podlewania);
+        self.dodaj_program(program_podlewania.nazwa_programu, program_podlewania);
 
     # zwraca sekcje która ma być aktywna, albo None jeśli wszystkie mają być wyłączone
     def update(self, wodamierz : wodomierz) -> int|None:
