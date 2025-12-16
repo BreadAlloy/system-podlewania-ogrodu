@@ -317,6 +317,7 @@ class plan_podlewania:
                 self.przyszle_ProgramBloki.pop(i);
 
         self.programy.pop(nazwa_programu);
+        self.zapisz_programy_do_pliku();
 
     # dodaj program i zintegruj jego bloku z pozostałymi
     def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewania): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
@@ -329,6 +330,8 @@ class plan_podlewania:
         nowe_bloki = nowy_program.daj_ProgramBlocki();
         for blok in nowe_bloki:
             heapq.heappush(self.przyszle_ProgramBloki, blok);
+        self.zapisz_programy_do_pliku();
+
 
     def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
         # będzie usuwać wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
