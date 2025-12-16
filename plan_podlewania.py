@@ -378,17 +378,17 @@ class plan_podlewania:
         else:
             return None;
 
-    def zapisz_programy_do_pliku(self):
+    def zapisz_programy_do_pliku(self, filename=config.plik_z_programami_podlewania):
         data_to_export = [];
         for p in self.programy.values():
             data_to_export.append(p.to_dict());
 
-        with open(config.plik_z_programami_podlewania, 'w', encoding='ascii') as f:
+        with open(filename, 'w', encoding='ascii') as f:
             json.dump(data_to_export, f, indent=2, ensure_ascii=True);
 
-    def przeczytaj_programy_z_pliku(self):
+    def przeczytaj_programy_z_pliku(self, filename=config.plik_z_programami_podlewania):
         assert(len(self.programy) == 0); # Niekoniecznie błąd ale wydaje mi się, że będą czytane jako konstruktor
-        with open(config.plik_z_programami_podlewania, 'r', encoding='ascii') as fd:
+        with open(filename, 'r', encoding='ascii') as fd:
             program_dicty = json.load(fd);
             for p in program_dicty:
                 przeczytany_program = program_podlewania();

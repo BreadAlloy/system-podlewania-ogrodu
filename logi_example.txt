@@ -1093,3 +1093,27 @@
 03:31:52 | 15/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 9
 05:01:52 | 15/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 1
 05:21:52 | 15/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 2
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 1
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 2
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 0
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 3
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 4
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 5
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 6
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 7
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 8
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 9
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 1
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 2
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 10
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 11
+12:51:33 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 12
+12:51:33 | 12/12/2025 | HARDWARE | aktywuje pin - 11
+12:51:34 | 12/12/2025 | INFO | Zakonczono podlewanie na sekcji: 1 po: 63987.65918445587 sekundach i 26660900.0 ml wylanej wody
+12:51:34 | 12/12/2025 | HARDWARE | deaktywuje pin - 11
+12:51:34 | 12/12/2025 | HARDWARE | aktywuje pin - 23
+13:05:58 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 13
+13:10:30 | 12/12/2025 | INFO | Zakonczono podlewanie na sekcji: 2 po: 1135.104406118393 sekundach i 500115.0 ml wylanej wody
+13:10:30 | 12/12/2025 | HARDWARE | aktywuje pin - 25
+13:10:30 | 12/12/2025 | HARDWARE | deaktywuje pin - 23
+13:25:58 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 14

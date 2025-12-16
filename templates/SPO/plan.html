@@ -3,7 +3,17 @@
 <ul>
     {% for program in plan %}
     <p>
-    <div>{{program.0}}</div>
+    <div>
+    {{program.0}}
+    <form action="{% url 'program_remove' program.0 %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Usuń</button>
+    </form>
+    <form action="{% url 'program_edit' program.0 %}" method="get">
+    {% csrf_token %}
+    <button type="submit">Edytuj</button>
+    </form>
+    </div>
     <div>Godz. Rozpoczęcia: {{program.1}}, Tryb Podlewania: {% if program.2 == "True"%} Tak {% else %} Nie {% endif %}</div>
     <div>Pon. {% if program.3.0 == True%} Tak {% else %} Nie {% endif %} 
         | Wt. {% if program.3.1 == True%} Tak {% else %} Nie {% endif %} 

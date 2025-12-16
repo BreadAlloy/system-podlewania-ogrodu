@@ -1,0 +1,11 @@
+<form action="{% url 'zawory' %}" method="get">
+{% csrf_token %}
+<button type="submit">Wróć</button>
+</form>
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Zapisz Program</button>
+</form>
