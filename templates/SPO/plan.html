@@ -1,17 +1,22 @@
+<head>
+
+</head>
+
+
 <h3>Oto programy:</h3>
 
 <ul>
     {% for program in plan %}
     <p>
     <div>
-    {{program.0}}
-    <form action="{% url 'program_remove' program.0 %}" method="post">
+    <b>{{program.0}}</b>
+    <form action="{% url 'program_remove' program.0 %}" method="post" style="display:inline;">
     {% csrf_token %}
-    <button type="submit">Usuń</button>
+    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Usuń</button>
     </form>
-    <form action="{% url 'program_edit' program.0 %}" method="get">
+    <form action="{% url 'program_edit' program.0 %}" method="get" style="display:inline;">
     {% csrf_token %}
-    <button type="submit">Edytuj</button>
+    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Edytuj</button>
     </form>
     </div>
     <div>Godz. Rozpoczęcia: {{program.1}}, Tryb Podlewania: {% if program.2 == "True"%} Tak {% else %} Nie {% endif %}</div>

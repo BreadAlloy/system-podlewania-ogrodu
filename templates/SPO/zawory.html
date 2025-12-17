@@ -15,7 +15,7 @@
 
 <ul>
 <form action="{% url 'program_create' %}">
-    <button type="submit">Nowy</button>
+    <button type="submit" style="padding:8px 12px;font-size:14px;box-shadow:2px 2px 12px 0px rgba(0,0,0,0.15);">Nowy</button>
 </form>
 </ul>
 
@@ -27,7 +27,7 @@
     <form action="{% url 'switch' zawor.id %}" method="post">
     {% csrf_token %}
     {{zawor.real_id}} {% if zawor.status == True%} 🟩 {% else %} 🟥 {% endif %}
-    <button type="submit">Przełącz</button>
+    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Przełącz</button>
     </form>
     </div>
     {% endfor %}

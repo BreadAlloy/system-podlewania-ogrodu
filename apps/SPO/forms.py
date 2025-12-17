@@ -39,7 +39,7 @@ class ProgramForm(forms.Form):
                          
         for i in config.rozpiska_sekcji:
             self.fields[f'sekcja_{i}'] = forms.FloatField(
-                    label=f'Sekcja {i} (ml)',
+                    label=f'Sekcja {i} - {config.rozpiska_sekcji[i][0]} (ml)',
                     min_value=0,
                     widget=forms.NumberInput(attrs={'step':'0.1'}),
                     required=False

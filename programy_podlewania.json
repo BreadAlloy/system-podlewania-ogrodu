@@ -3,7 +3,7 @@
     "nazwa": "Podlewanie trawy",
     "godzina_start": "02:00",
     "tryb": "CZAS (min)",
-    "co_ile_dni": 2,
+    "co_ile_dni": 1,
     "dni_tygodnia": {
       "Pon": true,
       "Wt": true,
@@ -311,7 +311,7 @@
     "nazwa": "Podlewanie dodatkowe",
     "godzina_start": "12:00",
     "tryb": "CZAS (min)",
-    "co_ile_dni": 3,
+    "co_ile_dni": 1,
     "dni_tygodnia": {
       "Pon": true,
       "Wt": false,
