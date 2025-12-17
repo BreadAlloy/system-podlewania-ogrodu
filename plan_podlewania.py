@@ -283,6 +283,8 @@ co ile dni podlewać: {self.co_ile_dni_podlac}
         self.w_ktore_dni_tygodnia_podlewac[5] = dozwolone_dni["Sob"];
         self.w_ktore_dni_tygodnia_podlewac[6] = dozwolone_dni["Nd"];
 
+        self.co_ile_dni_podlac = program_dict["co_ile_dni"]
+
         ilosci_wczytywne = program_dict["sekcje"];
         assert(len(ilosci_wczytywne) == len(self.ilosci_podlewania)); # inna ilość sekcji niż w configu
         for i in ilosci_wczytywne:
