@@ -6,6 +6,7 @@ from czas import czas_globalny
 from plan_podlewania import plan_podlewania, ProgramBlock, tryb_podlewania_czasem
 import time # po time.sleep()
 from logger import logger_globalny
+from komunikator import *
 
 class Command(BaseCommand):
 
@@ -20,6 +21,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("Started gpio-worker")
+
+        from tester_komunikatora1 import tester
+
+        print("dziala :)");
+        
+        discord = komunikator(config.port_do_komunikacji);
+        discord.serwuj();
+
+
+        # discord1 = komunikator(config.port_do_komunikacji);
+        # discord2 = komunikator(config.port_do_komunikacji);
+        # discord1.serwuj();
+        # discord2.polacz();
 
         self.sekcje.printuj_stan();
         wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
@@ -38,6 +52,8 @@ class Command(BaseCommand):
             czas_globalny.update();
 
             czy_cos_sie_zmienilo = False;
+
+            print(discord.odbierz());
 
             if(self.sterowanie_reczne):
                 zawory_w_bazie = Zawor.objects.all();

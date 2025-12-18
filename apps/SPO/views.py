@@ -9,26 +9,20 @@ from hardware import sekcje
 from konfiguracja import *
 from logger import logger_globalny # do odczytu logów, niekoniecznie do zapisywania
 from plan_podlewania import plan_podlewania
+from komunikator import *
 
-ZAWOR_DATA = [
-    {'id': '0', 'name': 'Rainbird', 'status': 'ON'},
-    {'id': '1', 'name': 'Hunter', 'status': 'OFF'},
-    {'id': '2', 'name': '1/2 I Quot 3/4 I Quot 1 Cal Elektrozawór Do Nawadniania 12V/24VAC Elektrozawory Ogród Rolnictwo Architektura Krajobrazu Elektrozawór Do Nawadniania (Color : 1", Size : DC Latching(9-20V)) ', 'status': 'ON'},
-]
-
-#class ZaworyView(generic.TemplateView):
-#    template_name = "SPO/zawory.html"
-#
-#    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        context["zawory"] = ZAWOR_DATA
-#        return context
+discord = None;
 
 class ZaworyView(ListView):
     model = Zawor
     template_name = 'SPO/zawory.html'
 
     def get_context_data(self, **kwargs):
+        from tester_komunikatora2 import tester
+        global discord;
+        if(discord == None):
+            discord = komunikator(config.port_do_komunikacji);
+            discord.polacz();
         context = super().get_context_data(**kwargs)
         context["zawory"] = Zawor.objects.order_by("real_id");
         return context
@@ -90,7 +84,7 @@ class PlanProgramowView(TemplateView):
 def ProgramRemoveView(request, program_name):
 
     print("Want to remove:",program_name) #Tu funkcja usuwania
-
+    discord.wyslij(kod_komunikatu.USUN_PROGRAM, program_name);
     return redirect('zawory')
 
 def ProgramCreateView(request):

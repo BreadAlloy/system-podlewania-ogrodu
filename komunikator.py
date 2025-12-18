@@ -10,9 +10,9 @@ client_polaczenia = True;
 serwer_polaczenia = False;
 
 class komunikator:
-    port : int
-    # connection
-    flaga : bool
+    # port : int
+    # # connection
+    # flaga : bool
 
     def __init__(self, port):
         self.port = port;
@@ -21,19 +21,20 @@ class komunikator:
 
     def serwuj(self):
         assert(self.flaga == None);
+        assert(self.connection == None);
         self.flaga = serwer_polaczenia;
-        address = ('localhost', self.port);
-        self.listener = Listener(address);
+        self.address = ('localhost', self.port);
+        with Listener(self.address, authkey=b'nic') as listener:
+            self.connection = listener.accept();
+            print('connection accepted from', listener.last_accepted);
+
 
     def polacz(self):
         assert(self.connection == None);
-        if(self.flaga == serwer_polaczenia):
-            self.connection = self.listener.accept();
-            return;
         assert(self.flaga == None);
         self.flaga = client_polaczenia;
-        address = ('localhost', self.port);
-        self.connection = Client(address);
+        self.address = ('localhost', self.port);
+        self.connection = Client(self.address, authkey=b'nic');
 
     def wyslij(self, kod_komunikatu : int, wiadomosc : any):
         assert(self.connection != None);
