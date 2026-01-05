@@ -296,7 +296,7 @@ class plan_podlewania:
 #---------------------------------POLA------------------------------------
 
     #           {nazwa_programu : program}
-    programy : dict[str, program_podlewania] = {};
+    programy : dict[str, program_podlewania];
     # !!!!!! ZAKAZ MODYFIKOWANIA PÓL W PROGRAMACH PODLEWANIA TUTAJ !!!!!!!
 
     wykonywane_ProgramBloki : list[StateofProgramBlock];  # kolejka po momencie dodania do listy
@@ -307,6 +307,7 @@ class plan_podlewania:
     def __init__(self):
         self.last_check_time = czas_globalny.czas_od_epoch
         self.last_stan_wodomierza = 0
+        self.programy = {};
         self.przyszle_ProgramBloki = [];
         self.wykonywane_ProgramBloki = []; # przeważnie tu powinien być jeden obiekt ale w wypadku kolizji mogą być kilka
 
@@ -399,3 +400,9 @@ class plan_podlewania:
                 przeczytany_program = program_podlewania();
                 przeczytany_program.from_dict(p);
                 self.dodaj_program(przeczytany_program.nazwa_programu, przeczytany_program);
+
+def get_biezace_programy_podlewania() -> dict[str, program_podlewania]:
+    plan = plan_podlewania();
+    plan.przeczytaj_programy_z_pliku(config.plik_z_programami_podlewania);
+    return plan.programy;
+

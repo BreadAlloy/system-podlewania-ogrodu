@@ -16,5 +16,6 @@ RUN pip install --no-cache-dir -r requirements_gpio.txt
 
 COPY . .
 
+EXPOSE 9823
 ENTRYPOINT ["python", "manage.py"]
 CMD ["gpio-worker"]
