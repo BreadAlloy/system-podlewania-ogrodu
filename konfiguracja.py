@@ -27,6 +27,7 @@ class konfiguracja:
     plik_z_programami_podlewania : str = "programy_podlewania.json";
     plik_z_logiem : str = "logi_example.txt"; # alternatywnie "logi.txt" jest git ignorowany
 
+    port_do_komunikacji : int = 9823;
     # w normalnym uzytkowaniu nie będzie się używać "dodatkowa n" tylko po prostu się nie wpisze
     rozpiska_sekcji = {
 # id_sekcji  :  (nazwa, numer_gpio)

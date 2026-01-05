@@ -5,45 +5,67 @@ class kody_komunikatow:
     ROZLACZ = 0;
     USUN_PROGRAM = 1;
     ZMODYFIKUJ_PROGRAM = 2;
+    DODAJ_PROGRAM = 3;
+
+kod_komunikatu_str = {
+    0 : "kod: ROZLACZ",
+    1 : "kod: USUN_PROGRAM",
+    2 : "kod: ZMODYFIKUJ_PROGRAM",
+    3 : "kod: DODAJ_PROGRAM",
+};
+
+class kod_komunikatu:
+    def __init__(self, kod : int):
+        self.kod = kod;
+
+    def __str__(self) -> str:
+        return kod_komunikatu_str[self.kod];
+
+    def __repr__(self) -> str:
+        return self.__str__();
 
 client_polaczenia = True;
 serwer_polaczenia = False;
 
 class komunikator:
-    port : int
-    # connection
-    flaga : bool
+    # port : int
+    # # connection
+    # flaga : bool
+    # ip : str
 
-    def __init__(self, port):
+    def __init__(self, ip, port):
         self.port = port;
+        self.ip = ip;
         self.connection = None;
         self.flaga = None;
 
     def serwuj(self):
         assert(self.flaga == None);
+        assert(self.connection == None);
         self.flaga = serwer_polaczenia;
-        address = ('localhost', self.port);
-        self.listener = Listener(address);
+        self.address = (self.ip, self.port);
+        with Listener(self.address, authkey=b'nic') as listener:
+            self.connection = listener.accept();
+            print('connection accepted from', listener.last_accepted);
 
     def polacz(self):
         assert(self.connection == None);
-        if(self.flaga == serwer_polaczenia):
-            self.connection = self.listener.accept();
-            return;
         assert(self.flaga == None);
         self.flaga = client_polaczenia;
-        address = ('localhost', self.port);
-        self.connection = Client(address);
+        self.address = (self.ip, self.port);
+        self.connection = Client(self.address, authkey=b'nic');
 
-    def wyslij(self, kod_komunikatu : int, wiadomosc : any):
+    def wyslij(self, kod : int, wiadomosc : any):
         assert(self.connection != None);
-        wysylane = (kod_komunikatu, wiadomosc);
+        wysylane = (kod_komunikatu(kod), wiadomosc);
         self.connection.send(wysylane);
 
-    def odbierz(self) -> tuple[int, any]:
+    def odbierz(self) -> tuple[kod_komunikatu, any] | None:
         assert(self.connection != None);
+        if(not self.connection.poll()):
+            return None; # Nie ma nic do odebrania
         otrzymane = self.connection.recv();
-        if(otrzymane[0] == kody_komunikatow.ROZLACZ):
+        if(otrzymane[0].kod == kody_komunikatow.ROZLACZ):
             self.rozlacz();
         return otrzymane;
 

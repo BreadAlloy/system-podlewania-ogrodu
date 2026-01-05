@@ -8,21 +8,17 @@ from django.views import generic
 from hardware import sekcje
 from konfiguracja import *
 from logger import logger_globalny # do odczytu logów, niekoniecznie do zapisywania
-from plan_podlewania import plan_podlewania
+from plan_podlewania import get_biezace_programy_podlewania, program_podlewania
+from komunikator import *
 
-ZAWOR_DATA = [
-    {'id': '0', 'name': 'Rainbird', 'status': 'ON'},
-    {'id': '1', 'name': 'Hunter', 'status': 'OFF'},
-    {'id': '2', 'name': '1/2 I Quot 3/4 I Quot 1 Cal Elektrozawór Do Nawadniania 12V/24VAC Elektrozawory Ogród Rolnictwo Architektura Krajobrazu Elektrozawór Do Nawadniania (Color : 1", Size : DC Latching(9-20V)) ', 'status': 'ON'},
-]
+discord = None;
+AKTYWUJ_KOMUNIKATOR = os.environ.get("AKTYWUJ_KOMUNIKATOR");
+if(AKTYWUJ_KOMUNIKATOR == "True"):
+    if(discord == None):
+        print("Aktywuje komunikator");
+        discord = komunikator("gpio-worker", config.port_do_komunikacji);
+        discord.polacz();
 
-#class ZaworyView(generic.TemplateView):
-#    template_name = "SPO/zawory.html"
-#
-#    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        context["zawory"] = ZAWOR_DATA
-#        return context
 
 class ZaworyView(ListView):
     model = Zawor
@@ -74,53 +70,47 @@ class PlanProgramowView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        programy=[]
-        try:
-            with open("plan_programow.txt", "r") as f:
-                for l in f:
-                    program = l.strip().split("|")
-                    programy.append(program)
-                    program[3]=eval(program[3])
-                    program[4]=eval(program[4])
-        except FileNotFoundError:
-            pass
-        context["plan"] = programy
+        context["plan"] = get_biezace_programy_podlewania().values();
         return context
     
 def ProgramRemoveView(request, program_name):
-
-    print("Want to remove:",program_name) #Tu funkcja usuwania
-
+    discord.wyslij(kody_komunikatow.USUN_PROGRAM, program_name);
     return redirect('zawory')
 
 def ProgramCreateView(request):
     if request.method == "POST":
         form = ProgramForm(request.POST)
         if form.is_valid():
+        
+            program = program_podlewana();
 
-            print("Want to create:",form.cleaned_data) #Tu funkcja dodawania
+            # poprosze coś w stylu
+            # program = form.jako_program()
+
+            discord.wyslij(kody_komunikatow.DODAJ_PROGRAM, program);
 
             return redirect('zawory')
     else:
-        valuedict={}
-        for i in config.rozpiska_sekcji:
-            valuedict.update({f'sekcja_{i}':0.0})
-        form = ProgramForm(valuedict)
+        program_dict = program_podlewana().to_dict();
+
+        form = ProgramForm(program_dict)
     return render(request, "SPO/program_form.html", {"form": form})
 
 def ProgramEditView(request, program_name):
     if request.method == "POST":
-        form = ProgramForm(request.POST)
+        form = ProgramForm(get_biezace_programy_podlewania()[program_name].to_dict());
         form.fields['nazwa_programu'].widget.attrs['readonly'] = True
         if form.is_valid():
 
-            print("Want to edit:",form.cleaned_data) #Tu funkcja edycji
+            program = program_podlewana();
 
+            # poprosze coś w stylu
+            # program = form.jako_program()
+
+            discord.wyslij(kody_komunikatow.ZMODYFIKUJ_PROGRAM, program);
+        
             return redirect('zawory')
     else:
-        #LOAD JSON HERE TO GET DATA FROM PROGRAM
-        valuedict={'nazwa_programu':program_name}
-
-        form = ProgramForm(valuedict)
-        form.fields['nazwa_programu'].widget.attrs['readonly'] = True
+        form = ProgramForm(get_biezace_programy_podlewania()[program_name].to_dict());
+        form.fields['nazwa'].widget.attrs['readonly'] = True;
     return render(request, "SPO/program_form.html", {"form": form})

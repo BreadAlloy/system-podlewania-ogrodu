@@ -6,6 +6,7 @@ from czas import czas_globalny
 from plan_podlewania import plan_podlewania, ProgramBlock, tryb_podlewania_czasem
 import time # po time.sleep()
 from logger import logger_globalny
+from komunikator import *
 
 class Command(BaseCommand):
 
@@ -20,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("Started gpio-worker")
-
+        
         self.sekcje.printuj_stan();
         wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
 
@@ -33,11 +34,43 @@ class Command(BaseCommand):
             z.status = nieaktywny;
             z.save();
 
+        discord = None;
         while True:
+            
+            odebrane = None;
+            if(discord != None):
+                try:
+                    odebrane = discord.odbierz();
+                except EOFError:
+                    print("Polaczenie z web zerwane");
+                    discord = None;
+                    continue;
+            else:
+                print("Czekam na polaczenie z web");
+                discord = komunikator('gpio-worker', config.port_do_komunikacji);
+                discord.serwuj();
+                print("Jest polaczenie z web :)");
+
+
             time.sleep(1.0/config.czestotliwosc_operowania);
             czas_globalny.update();
 
             czy_cos_sie_zmienilo = False;
+
+
+
+            if(odebrane is not None):
+                if  (odebrane[0].kod == kody_komunikatow.USUN_PROGRAM):
+                    self.plan.usun_program(odebrane[1]);
+
+                elif(odebrane[0].kod == kody_komunikatow.ZMODYFIKUJ_PROGRAM):
+                    self.plan.zmodyfikuj_program(odebrane[1]);
+
+                elif(odebrane[0].kod == kody_komunikatow.DODAJ_PROGRAM):
+                    self.plan.dodaj_program(odebrane[1]);
+
+                else:
+                    print("Cos tu nie tak");
 
             if(self.sterowanie_reczne):
                 zawory_w_bazie = Zawor.objects.all();
@@ -77,11 +110,6 @@ class Command(BaseCommand):
                 self.wodomierz.zapisz_stan();
                 # print(f"Stan wodomierza: {self.wodomierz.stan_wodomierza()} ml");
                 wczesniejszy_stan_wodomierza = self.wodomierz.stan_wodomierza();
-
-            with open("plan_programow.txt", "w") as f:
-                for program in self.plan.programy.items():
-                    f.write(program[0]+"|"+str(program[1].godzina_rozpoczecia)+"|"+str(program[1].tryb_podlewania)+"|"+str(program[1].w_ktore_dni_tygodnia_podlewac)+"|"+str(program[1].ilosci_podlewania)+"|"+str(program[1].co_ile_dni_podlac)+"\n")
-
 
 """ 
 Jeśli np. pisze error 
