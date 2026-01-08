@@ -19,7 +19,7 @@
     <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Edytuj</button>
     </form>
     </div>
-    <div>Godz. Rozpoczęcia: {{program.godzina_rozpoczecia}}, Tryb Podlewania: Tryb Podlewania: {% if program.tryb_podlewania%} Czas {% else %} Ilość wody {% endif %}</div>
+    <div>Godz. Rozpoczęcia: {{program.godzina_rozpoczecia}}, Tryb Podlewania: {% if program.tryb_podlewania%} Czas {% else %} Ilość wody {% endif %}</div>
     <div>Pon. {% if program.w_ktore_dni_tygodnia_podlewac.0 == True%} 🟩 {% else %} 🟥 {% endif %} 
         | Wt. {% if program.w_ktore_dni_tygodnia_podlewac.1 == True%} 🟩 {% else %} 🟥 {% endif %} 
         | Śr. {% if program.w_ktore_dni_tygodnia_podlewac.2 == True%} 🟩 {% else %} 🟥 {% endif %}

@@ -1117,3 +1117,7 @@
 13:10:30 | 12/12/2025 | HARDWARE | aktywuje pin - 25
 13:10:30 | 12/12/2025 | HARDWARE | deaktywuje pin - 23
 13:25:58 | 12/12/2025 | INFO | Rozpoczeto podlewanie na sekcji: 14
+02:00:05 | 08/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 3
+02:00:05 | 08/01/2026 | HARDWARE | aktywuje pin - 5
+05:00:02 | 08/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+05:00:02 | 08/01/2026 | HARDWARE | aktywuje pin - 11

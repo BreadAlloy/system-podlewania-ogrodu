@@ -11,6 +11,55 @@ from logger import logger_globalny # do odczytu logów, niekoniecznie do zapisyw
 from plan_podlewania import get_biezace_programy_podlewania, program_podlewania
 from komunikator import *
 
+def request_to_dict(request):
+    tryb_str = "CZAS (min)" if request['tryb_str']=='on' else "ILOSC (litry)"
+    pon = True if 'Pon' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    wt = True if 'Wt' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    sr = True if 'Sr' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    czw = True if 'Czw' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    pt = True if 'Pt' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    sob = True if 'Sob' in request['w_ktore_dni_tygodnia_podlewac'] else False
+    nd = True if 'Nd' in request['w_ktore_dni_tygodnia_podlewac'] else False
+
+    program_dict = {
+        'nazwa': request['nazwa'],
+        # rzutujemy zegarek na str, bo JSON nie ogarnia obiektów
+        'godzina_start': str(request['godzina_start']), 
+        'tryb': tryb_str,
+        'co_ile_dni': request['co_ile_dni_podlewac'],
+        'dni_tygodnia': {
+            'Pon': pon,
+            'Wt': wt,
+            'Sr': sr,
+            'Czw': czw,
+            'Pt': pt,
+            'Sob': sob,
+            'Nd': nd,
+        },
+        'sekcje': []
+    }
+
+    # Dodajemy info o sekcjach (tylko te, które mają > 0 podlewania)
+
+    sekcje = [
+    float(request.get(f'sekcja_{i}', 0))
+    for i in range(15)
+    ]
+
+    i=0
+    for sekcja in sekcje:
+        # sekcja to lista [id, ilosc]
+        id_sekcji = i
+        ilosc = sekcja
+            
+        program_dict['sekcje'].append({
+            'id_sekcji': id_sekcji,
+            'ilosc': ilosc
+        })
+        i+=1
+        
+    return program_dict;
+
 discord = None;
 AKTYWUJ_KOMUNIKATOR = os.environ.get("AKTYWUJ_KOMUNIKATOR");
 if(AKTYWUJ_KOMUNIKATOR == "True"):
@@ -82,34 +131,41 @@ def ProgramCreateView(request):
         form = ProgramForm(request.POST)
         if form.is_valid():
         
-            program = program_podlewana();
+            program = program_podlewania();
 
+            print(form.cleaned_data)
             # poprosze coś w stylu
             # program = form.jako_program()
 
-            discord.wyslij(kody_komunikatow.DODAJ_PROGRAM, program);
+            #discord.wyslij(kody_komunikatow.DODAJ_PROGRAM, program);
 
             return redirect('zawory')
     else:
-        program_dict = program_podlewana().to_dict();
+        program_dict = program_podlewania().to_dict();
 
         form = ProgramForm(program_dict)
     return render(request, "SPO/program_form.html", {"form": form})
 
 def ProgramEditView(request, program_name):
     if request.method == "POST":
-        form = ProgramForm(get_biezace_programy_podlewania()[program_name].to_dict());
-        form.fields['nazwa_programu'].widget.attrs['readonly'] = True
+        form = ProgramForm(request_to_dict(request.POST))
+        print(request_to_dict(request.POST))
+        print(get_biezace_programy_podlewania()[program_name].to_dict())
+        form.fields['nazwa'].widget.attrs['readonly'] = True
+        form.is_bound=True
         if form.is_valid():
 
-            program = program_podlewana();
+            program = program_podlewania();
 
+            print("TEST")
             # poprosze coś w stylu
             # program = form.jako_program()
 
-            discord.wyslij(kody_komunikatow.ZMODYFIKUJ_PROGRAM, program);
+            #discord.wyslij(kody_komunikatow.ZMODYFIKUJ_PROGRAM, program);
         
             return redirect('zawory')
+        else:
+            print(form.errors)
     else:
         form = ProgramForm(get_biezace_programy_podlewania()[program_name].to_dict());
         form.fields['nazwa'].widget.attrs['readonly'] = True;
