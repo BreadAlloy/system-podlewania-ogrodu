@@ -12,7 +12,7 @@ services:
     env_file:
       - ./config/.env
     environment:
-      - AKTYWUJ_KOMUNIKATOR=True
+      - AKTYWUJ_KOMUNIKATOR=${AKTYWUJ_KOMUNIKATOR}
       - RPI=${RPI}
 
   gpio-worker:

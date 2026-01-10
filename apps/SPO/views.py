@@ -62,7 +62,7 @@ def request_to_dict(request):
 
 discord = None;
 AKTYWUJ_KOMUNIKATOR = os.environ.get("AKTYWUJ_KOMUNIKATOR");
-if(AKTYWUJ_KOMUNIKATOR == "True"):
+if(AKTYWUJ_KOMUNIKATOR == "True" or AKTYWUJ_KOMUNIKATOR == "true" or AKTYWUJ_KOMUNIKATOR == "TRUE"):
     if(discord == None):
         print("Aktywuje komunikator");
         discord = komunikator("gpio-worker", config.port_do_komunikacji);
@@ -106,7 +106,7 @@ class WodomierzView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sygnaly=Wodomierz.objects.get(pk=1).ilosc
-        context["wodomierz_status"] = int(sygnaly)*config.ilosc_wody_na_sygnal;
+        context["wodomierz_status"] = float(sygnaly)*config.ilosc_wody_na_sygnal / 10.0**6;
         return context
     
 class LogiView(View):
