@@ -170,3 +170,6 @@ def ProgramEditView(request, program_name):
         form = ProgramForm(get_biezace_programy_podlewania()[program_name].to_dict());
         form.fields['nazwa'].widget.attrs['readonly'] = True;
     return render(request, "SPO/program_form.html", {"form": form})
+
+class AfkView(TemplateView):
+    template_name = "SPO/afk.html";

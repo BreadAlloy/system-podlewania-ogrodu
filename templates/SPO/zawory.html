@@ -1,6 +1,7 @@
 <head>
 <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script> <!-- Aktualnie odniesienie do skryptu, może być zamienione na instalację htmx'a -->
 <title>System Podlewania Ogrodu</title>
+<meta http-equiv="refresh" content="240;{% url 'afk' %}" /> <!-- afk timeout -->
 </head>
 <body>
 <h1>Zawory</h1>
@@ -9,7 +10,7 @@
     Pobieranie danych wodomierza...
 </div>
 
-<div hx-get="{% url 'plan_programow' %}" hx-trigger="load, every 10s">
+<div hx-get="{% url 'plan_programow' %}" hx-trigger="load, every 1s">
     Pobieranie danych planu...
 </div>
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from apps.SPO.views import ZaworyView, ZaworCreateView, ZaworONOFFView, WodomierzView, LogiView, PlanProgramowView, ProgramRemoveView, ProgramCreateView, ProgramEditView
+from apps.SPO.views import ZaworyView, ZaworCreateView, ZaworONOFFView, WodomierzView, LogiView, PlanProgramowView, ProgramRemoveView, ProgramCreateView, ProgramEditView, AfkView
 
 urlpatterns = [
     path("", ZaworyView.as_view(), name="landing"),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('plan/remove/<str:program_name>',ProgramRemoveView, name="program_remove"),
     path('plan/create/',ProgramCreateView, name="program_create"),
     path('plan/edit/<str:program_name>',ProgramEditView, name="program_edit"),
+    path("afk/", AfkView.as_view(), name = "afk"),
 ]

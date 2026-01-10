@@ -1,0 +1,12 @@
+<head>
+<title>System Podlewania Ogrodu</title>
+    <h1>
+        Jesteś afk.
+    </h1>
+</head>
+<body>
+    <form action={% url "zawory" %} method="get">
+        {% csrf_token %}
+        <button type="submit" style="width:120px;height:60px;">Wróciłem</button>
+    </form>
+</body>
