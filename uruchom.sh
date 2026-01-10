@@ -1,1 +1,0 @@
-RPI=true AKTYWUJ_KOMUNIKATOR=true docker compose up

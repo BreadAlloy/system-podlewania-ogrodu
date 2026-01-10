@@ -1,3 +1,10 @@
+# Nowa komenda by uruchomić:
+'''bash
+
+RPI=true AKTYWUJ_KOMUNIKATOR=true docker compose up
+
+'''
+
 # STEROWNIK PODLEWANIA OGRODU - USER GUIDE 
 
 Wersja 0.0.0.1.0 
