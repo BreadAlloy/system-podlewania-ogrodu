@@ -1121,3 +1121,99 @@
 02:00:05 | 08/01/2026 | HARDWARE | aktywuje pin - 5
 05:00:02 | 08/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
 05:00:02 | 08/01/2026 | HARDWARE | aktywuje pin - 11
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 0
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 3
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 4
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 5
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 6
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 7
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 8
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 9
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+12:47:34 | 09/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+12:47:34 | 09/01/2026 | HARDWARE | aktywuje pin - 11
+12:47:36 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 1 po: 83742.9754383564 sekundach i 34892235.0 ml wylanej wody
+12:47:36 | 09/01/2026 | HARDWARE | deaktywuje pin - 11
+12:47:36 | 09/01/2026 | HARDWARE | aktywuje pin - 23
+13:07:36 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 2 po: 1200.3970267772675 sekundach i 500150.0 ml wylanej wody
+13:07:36 | 09/01/2026 | HARDWARE | aktywuje pin - 25
+13:07:36 | 09/01/2026 | HARDWARE | deaktywuje pin - 23
+14:37:37 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 0 po: 5400.37585401535 sekundach i 2250430.0 ml wylanej wody
+14:37:37 | 09/01/2026 | HARDWARE | deaktywuje pin - 25
+14:37:37 | 09/01/2026 | HARDWARE | aktywuje pin - 5
+14:52:37 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 3 po: 900.4271852970123 sekundach i 375340.0 ml wylanej wody
+14:52:37 | 09/01/2026 | HARDWARE | deaktywuje pin - 5
+14:52:37 | 09/01/2026 | HARDWARE | aktywuje pin - 18
+15:07:38 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 4 po: 900.8515367507935 sekundach i 375095.0 ml wylanej wody
+15:07:38 | 09/01/2026 | HARDWARE | deaktywuje pin - 18
+15:07:38 | 09/01/2026 | HARDWARE | aktywuje pin - 6
+15:22:39 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 5 po: 900.6183321475983 sekundach i 375550.0 ml wylanej wody
+15:22:39 | 09/01/2026 | HARDWARE | deaktywuje pin - 6
+15:22:39 | 09/01/2026 | HARDWARE | aktywuje pin - 12
+15:37:39 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 6 po: 900.8771021366119 sekundach i 375165.0 ml wylanej wody
+15:37:39 | 09/01/2026 | HARDWARE | deaktywuje pin - 12
+15:37:39 | 09/01/2026 | HARDWARE | aktywuje pin - 13
+15:52:40 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 7 po: 900.1128718852997 sekundach i 374920.0 ml wylanej wody
+15:52:40 | 09/01/2026 | HARDWARE | deaktywuje pin - 13
+15:52:40 | 09/01/2026 | HARDWARE | aktywuje pin - 16
+17:01:55 | 09/01/2026 | INFO | Zakonczono podlewanie na sekcji: 8 po: 4155.650685548782 sekundach i 197435.0 ml wylanej wody
+17:01:55 | 09/01/2026 | HARDWARE | deaktywuje pin - 16
+17:01:55 | 09/01/2026 | HARDWARE | aktywuje pin - 20
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 0
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 0
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 3
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 4
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 5
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 6
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 7
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 8
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 9
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 10
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 11
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 12
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 13
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 14
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 0
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+10:38:02 | 12/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+10:38:02 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 9 po: 236166.95067453384 sekundach i 1551690.0 ml wylanej wody
+10:38:02 | 12/01/2026 | HARDWARE | aktywuje pin - 11
+10:38:02 | 12/01/2026 | HARDWARE | deaktywuje pin - 20
+10:38:04 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 1 po: 1.713104009628296 sekundach i 98427105.0 ml wylanej wody
+10:38:04 | 12/01/2026 | HARDWARE | deaktywuje pin - 11
+10:38:04 | 12/01/2026 | HARDWARE | aktywuje pin - 23
+10:53:23 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 2 po: 918.8538935184479 sekundach i 400120.0 ml wylanej wody
+10:53:23 | 12/01/2026 | HARDWARE | aktywuje pin - 11
+10:53:23 | 12/01/2026 | HARDWARE | deaktywuje pin - 23
+11:09:20 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 1 po: 957.0416347980499 sekundach i 400190.0 ml wylanej wody
+11:09:20 | 12/01/2026 | HARDWARE | deaktywuje pin - 11
+11:09:20 | 12/01/2026 | HARDWARE | aktywuje pin - 23
+11:29:20 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 2 po: 1200.1499440670013 sekundach i 500045.0 ml wylanej wody
+11:29:20 | 12/01/2026 | HARDWARE | aktywuje pin - 25
+11:29:20 | 12/01/2026 | HARDWARE | deaktywuje pin - 23
+13:16:04 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 0 po: 6403.70506644249 sekundach i 1170540.0 ml wylanej wody
+13:16:04 | 12/01/2026 | HARDWARE | deaktywuje pin - 25
+13:16:04 | 12/01/2026 | HARDWARE | aktywuje pin - 11
+13:15:57 | 12/01/2026 | INFO | Zakonczono podlewanie na sekcji: 1 po: -6.311322212219238 sekundach i 1497965.0 ml wylanej wody
+13:15:57 | 12/01/2026 | HARDWARE | deaktywuje pin - 11
+13:15:57 | 12/01/2026 | HARDWARE | aktywuje pin - 23
+02:22:33 | 13/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 1
+02:22:33 | 13/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 2
+02:22:33 | 13/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 0
+02:22:33 | 13/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 3
+02:22:33 | 13/01/2026 | INFO | Rozpoczeto podlewanie na sekcji: 4
+02:22:34 | 13/01/2026 | INFO | Zakonczono podlewanie na sekcji: 2 po: 47196.504673957825 sekundach i 19664750.0 ml wylanej wody
+02:22:34 | 13/01/2026 | HARDWARE | aktywuje pin - 11
+02:22:34 | 13/01/2026 | HARDWARE | deaktywuje pin - 23
