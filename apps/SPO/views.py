@@ -33,6 +33,31 @@ def form_to_program(form_data):
         program.zmodyfikuj_ilosc(i,form_data['sekcja_'+str(i)])
     return program
 
+def program_to_form(program : program_podlewania):
+    p_dict = program.to_dict();
+    tryb_str = True if p_dict['tryb']=="CZAS (min)" else False
+
+    lista_dni=[]
+    for dzien in p_dict['dni_tygodnia']:
+        if p_dict['dni_tygodnia'][dzien]:
+            lista_dni.append(dzien)
+
+    formvaluedict={
+                    'nazwa_programu':program.nazwa_programu,
+                    'tryb_str':tryb_str,
+                    'godzina_rozpoczecia':p_dict['godzina_start'],
+                    'co_ile_dni_podlac':p_dict['co_ile_dni'],
+                    'w_ktore_dni_tygodnia_podlewac':lista_dni,
+                    }
+
+    i=0
+    for sekcja in p_dict['sekcje']:
+        id_sekcji = 'sekcja_'+str(i)
+        ilosc = sekcja['ilosc']
+        formvaluedict.update({id_sekcji:ilosc})
+        i+=1
+    return formvaluedict;        
+
 discord = None;
 AKTYWUJ_KOMUNIKATOR = os.environ.get("AKTYWUJ_KOMUNIKATOR");
 if(AKTYWUJ_KOMUNIKATOR == "True" or AKTYWUJ_KOMUNIKATOR == "true" or AKTYWUJ_KOMUNIKATOR == "TRUE"):
@@ -109,7 +134,8 @@ def ProgramCreateView(request):
 
             return redirect('zawory')
     else:
-        form = ProgramForm()
+        formvaluedict = program_to_form(program_podlewania());
+        form = ProgramForm(formvaluedict);
     return render(request, "SPO/program_form.html", {"form": form})
 
 def ProgramEditView(request, program_name):
@@ -125,30 +151,7 @@ def ProgramEditView(request, program_name):
         else:
             print(form.errors)
     else:
-        p_dict=get_biezace_programy_podlewania()[program_name].to_dict()
-
-        tryb_str = True if p_dict['tryb']=="CZAS (min)" else False
-
-        lista_dni=[]
-        for dzien in p_dict['dni_tygodnia']:
-            if p_dict['dni_tygodnia'][dzien]:
-                lista_dni.append(dzien)
-
-        formvaluedict={
-                        'nazwa_programu':program_name,
-                        'tryb_str':tryb_str,
-                        'godzina_rozpoczecia':p_dict['godzina_start'],
-                        'co_ile_dni_podlac':p_dict['co_ile_dni'],
-                        'w_ktore_dni_tygodnia_podlewac':lista_dni,
-                        }
-
-        i=0
-        for sekcja in p_dict['sekcje']:
-            id_sekcji = 'sekcja_'+str(i)
-            ilosc = sekcja['ilosc']
-            formvaluedict.update({id_sekcji:ilosc})
-            i+=1
-        
+        formvaluedict = program_to_form(get_biezace_programy_podlewania()[program_name]);
         form = ProgramForm(formvaluedict);
         form.fields['nazwa_programu'].widget.attrs['readonly'] = True;
     return render(request, "SPO/program_form.html", {"form": form})
