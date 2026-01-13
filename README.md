@@ -1,56 +1,154 @@
-# system-podlewania-ogrodu
+# Nowa komenda by uruchomić:
+'''bash
 
-## przydatne komendy
+RPI=true AKTYWUJ_KOMUNIKATOR=true docker compose up
 
-### migracje / tworzenie danych
+'''
 
-```bash
-./database_init.sh
-```
+# STEROWNIK PODLEWANIA OGRODU - USER GUIDE 
 
-### uruchamianie (bez raspberrypi)
+Wersja 0.0.0.1.0 
+Wydanie 8.01.2026 
+Autorzy: Krzysztof Kupczyk, Filip Kojro, Dawid Antkowiak, Kajetan Szamotuła, Dawid Celian
 
-```bash
-RPI=false docker compose up --build
-```
-webapp powinien byc dostepny w `http://localhost:8000`
+## Dlaczego: 
 
-### uruchamianie (na raspberrypi)
+Celem systemu jest podlewanie czy coś.
+Oprogramowanie jest przeznaczone dla ogrodników potrzebujących sterownika na podstawie rutyn podlewania ustalonych przez użytkownika. 
+Ten User Guide obejmuje instalację programu, ustalenie własnych sekcji do podlewania oraz działanie z oprawą webową. 
 
-```bash
-docker compose up --build
-```
+## Funkcjonalności: 
+Główną funkcją systemu jest podlewanie kontrolowane automatycznie. Użytkownik może sterować: 
+    godziną rozpoczęcia podlewania, 
+    per sekcja czas albo ilość wody do użycia, 
+    w które dni tygodnia ma podlewać, 
 
-### usuwanie volumes
-```bash
-docker compose down -v
-```
+Jest tylko możliwość kontrolowania planowanych podlewań przez lokalą stronę internetową. 
 
-### testowanie gpio-worker (miejsce skryptu bedzie jeszcze zmienione z `apps/company/management/commands/gpio-worker.py` gdy utworzymy juz oficjalnie aplikacje)
-```bash
-./manage.sh gpio-worker
-```
+## Wymagania: 
+    Wymagane do korzystania:
+    * Raspbeperry Pi(0.5 GB RAMu, albo więcej)
+    * Elektrozawory(tyle to chce się sekcji) 
+    * Przekazniki(przynajmniej tyle co sekcji) np. [link](https://botland.com.pl/przekazniki-przekazniki-arduino/6940-modul-przekaznikow-16-kanalow-z-optoizolacja-styki-10a250vac-cewka-5v-5904422359911.html)
+    * Wodomierz na sensor Halla. np. [link](https://botland.com.pl/czujniki-przeplywu/8896-czujnik-przeplywu-cieczy-yf-s201-30lm-gwint-12--5904422366933.html)
+    * Przy tym sprzęcie co powyżej jeszcze takie coś się przyda: [link](https://botland.com.pl/konwertery-napiec/8590-konwerter-poziomow-logicznych-dwukierunkowy-8-kanalowy-5904422336660.html) (bo Raspberry Pi ma sygnał 3.3V a te przekazniki chcą 5V)  
+    * Oczywiście też jakiś sprzęt wodny do rozprowadzania wody. 
+    * Konieczne są też zdolności spięcia tego wszystkiego. 
+ !!Dlaczego to jest w code blocku??
 
-### tworzenie nowej "aplikacji" ktos to musi zrobic nie mialem dobrego pomyslu na nazwe
-```bash
-./manage.sh startapp {nazwa_aplikacji} apps/{nazwa_aplikacji}
-```
-w `settings.py` `INSTALLED_APPS` dodac nowy element `'apps.nazwa_aplikacji'`
+## Instalacja i konfiguracja: 
 
-### migracje bazy danych (po zmianach)
-```bash
-./manage.sh makemigrations
-./manage.sh migrate
-```
+ 
 
-## Kontrola sekcji za pomocą gpio gotowa
-Jest plik snippetowy testy.py by zobaczyć jak sobie wyobrażam, że sie tego używa. 
-jest też konfiguracja.py gdzie możecie włączyć debug_poza_raspberry.
-Nie testowałem w innym miejscu niż raspberry więc jeśli nie działa to moja wina
-Oczywiście nie pip installujcie requirements_testy.txt na czymś innym niż raspberry.
-Też pewnie z requirements_gpio.txt musicie te biblioteki usunąć jeśli inny sprzęt.
-Może czegoś brakować w requirements_gpio.txt ale gpiozero jest tak zrobione że mówi czego brakuje.
+### instalacja na Raspberry Pi 
 
-## Kontrola sekcji przez stronę web prawie gotowa
-Ładnie można przełączać na stronie i gpio-worker to odczytuje. Ale pip install dockerowy nie potrafi zainstalować 2 bibliotek koniecznych do kontroli gpio. Sekcje mają nazwy teraz i należało by je dodać do modelu zaworu.
+ 
 
+#### Instalacja Dockera uzywajac convinience script 
+
+ 
+
+```bash 
+
+Sudo apt update 
+
+Sudo apt install -y git curl 
+
+curl -fsSL https://get.docker.com -o get-docker.sh 
+
+sh get-docker.sh 
+
+sudo usermod -aG sudo $USER 
+
+sudo reboot now 
+
+``` 
+
+ 
+
+#### Wstepna konfiguracja programu 
+
+ 
+
+```bash 
+
+git clone https://github.com/BreadAlloy/system-podlewania-ogrodu.git 
+
+cd system-podlewania-ogrodu 
+
+sudo chmod +x database_init.sh 
+
+sudo chmod +x manage.sh 
+
+./database_init.sh 
+
+``` 
+
+ 
+
+#### Uruchamianie 
+
+ 
+
+Z folderu projektu 
+
+ 
+
+```bash 
+
+Docker compose up -d --build 
+
+``` 
+
+ 
+
+#### Zatrzymywanie 
+
+ 
+
+Z folderu projektu 
+
+ 
+
+```bash 
+
+Docker compose down 
+
+``` 
+
+ 
+
+#### Zatrzymywanie z usuwaniem 
+
+ 
+
+Z folderu projektu 
+
+ 
+
+```bash 
+
+Docker compose down -v 
+
+Cd .. 
+
+Sudo Rm -rf system-podlewania-ogrodu 
+
+``` 
+
+### Rezultat konfiguracji:
+Nasze oprogramowanie hostuje strony: 
+
+* http://{ip_raspberry}/logi:8000 (do wglądu w historie tego co się wydarzyło)
+
+* http://{ip_raspberry}:8000 (do ustalania planów podlewania) 
+
+## Rozwiązywanie problemów:
+Do spróbowania:
+    * Restart 
+    * Plik logi.txt jest za duży(można go zkasować wtedy po prostu) 
+    Kontakt z zespołem: [link](https://github.com/BreadAlloy/system-podlewania-ogrodu/issues)
+
+ 
+
+Link do repozytorium: [link](https://github.com/BreadAlloy/system-podlewania-ogrodu)

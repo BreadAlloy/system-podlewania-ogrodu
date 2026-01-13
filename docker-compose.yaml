@@ -12,6 +12,7 @@ services:
     env_file:
       - ./config/.env
     environment:
+      - AKTYWUJ_KOMUNIKATOR=${AKTYWUJ_KOMUNIKATOR}
       - RPI=${RPI}
 
   gpio-worker:
@@ -23,6 +24,8 @@ services:
       dockerfile: Dockerfile.gpio
     volumes:
       - .:/usr/src/app/
+    ports:
+      - "9823:9823"
     depends_on:
       - db
     env_file:

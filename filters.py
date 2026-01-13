@@ -1,7 +1,9 @@
 class IgnoreSpam:
     def filter(self, record):
-        if "wodomierz/" in record.getMessage():
+        msg = record.getMessage();
+        if "wodomierz/" in msg:
             return False
-        else:
-            return True
+        elif("plan/" in msg):
+            return False;
+        return True;
 

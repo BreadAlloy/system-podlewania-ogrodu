@@ -1,0 +1,38 @@
+<head>
+
+</head>
+
+
+<h3>Oto programy:</h3>
+
+<ul>
+    {% for program in plan %}
+    <p>
+    <div>
+    <b>{{program.nazwa_programu}}</b>
+    <form action="{% url 'program_remove' program.nazwa_programu %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Usuń</button>
+    </form>
+    <form action="{% url 'program_edit' program.nazwa_programu %}" method="get" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Edytuj</button>
+    </form>
+    </div>
+    <div>Godz. Rozpoczęcia: {{program.godzina_rozpoczecia}}, Tryb Podlewania: {% if program.tryb_podlewania%} Czas {% else %} Ilość wody {% endif %}</div>
+    <div>Pon. {% if program.w_ktore_dni_tygodnia_podlewac.0 == True%} 🟩 {% else %} 🟥 {% endif %} 
+        | Wt. {% if program.w_ktore_dni_tygodnia_podlewac.1 == True%} 🟩 {% else %} 🟥 {% endif %} 
+        | Śr. {% if program.w_ktore_dni_tygodnia_podlewac.2 == True%} 🟩 {% else %} 🟥 {% endif %}
+        | Czw. {% if program.w_ktore_dni_tygodnia_podlewac.3 == True%} 🟩 {% else %} 🟥 {% endif %}
+        | Piąt. {% if program.w_ktore_dni_tygodnia_podlewac.4 == True%} 🟩 {% else %} 🟥 {% endif %}
+        | Sob. {% if program.w_ktore_dni_tygodnia_podlewac.5 == True%} 🟩 {% else %} 🟥 {% endif %}
+        | Nied. {% if program.w_ktore_dni_tygodnia_podlewac.6 == True%} 🟩 {% else %} 🟥 {% endif %}</div>
+    <div>    
+    {% for sekcja_id, sekcja_ilosc in program.ilosci_podlewania %}
+        {{sekcja_id}} - {{sekcja_ilosc}} {% if program.tryb_podlewania%} min {% else %} l {% endif %} |
+    {% endfor %}
+    </div>
+    <div>Podlewanie {% if program.co_ile_dni_podlac == 1%} codziennie {% else %} co {{program.co_ile_dni_podlac}} dni {% endif %}</div>
+    </p>
+    {% endfor %}
+</ul>

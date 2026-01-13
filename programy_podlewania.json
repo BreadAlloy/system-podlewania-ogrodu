@@ -1,0 +1,233 @@
+[
+  {
+    "nazwa": "Podlewanie trawy",
+    "godzina_start": "02:00",
+    "tryb": "CZAS (min)",
+    "co_ile_dni": 2,
+    "dni_tygodnia": {
+      "Pon": true,
+      "Wt": true,
+      "Sr": true,
+      "Czw": true,
+      "Pt": true,
+      "Sob": false,
+      "Nd": true
+    },
+    "sekcje": [
+      {
+        "id_sekcji": 0,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 1,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 2,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 3,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 4,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 5,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 6,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 7,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 8,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 9,
+        "ilosc": 15.0
+      },
+      {
+        "id_sekcji": 10,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 11,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 12,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 13,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 14,
+        "ilosc": 0.0
+      }
+    ]
+  },
+  {
+    "nazwa": "Podlewanie nowych drzew",
+    "godzina_start": "00:00",
+    "tryb": "CZAS (min)",
+    "co_ile_dni": 1,
+    "dni_tygodnia": {
+      "Pon": true,
+      "Wt": true,
+      "Sr": true,
+      "Czw": true,
+      "Pt": true,
+      "Sob": true,
+      "Nd": true
+    },
+    "sekcje": [
+      {
+        "id_sekcji": 0,
+        "ilosc": 90.0
+      },
+      {
+        "id_sekcji": 1,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 2,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 3,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 4,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 5,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 6,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 7,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 8,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 9,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 10,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 11,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 12,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 13,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 14,
+        "ilosc": 0.0
+      }
+    ]
+  },
+  {
+    "nazwa": "Podlewanie rabatek wieczorem",
+    "godzina_start": "21:00",
+    "tryb": "ILOSC (litry)",
+    "co_ile_dni": 1,
+    "dni_tygodnia": {
+      "Pon": true,
+      "Wt": true,
+      "Sr": true,
+      "Czw": true,
+      "Pt": true,
+      "Sob": true,
+      "Nd": true
+    },
+    "sekcje": [
+      {
+        "id_sekcji": 0,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 1,
+        "ilosc": 400.0
+      },
+      {
+        "id_sekcji": 2,
+        "ilosc": 500.0
+      },
+      {
+        "id_sekcji": 3,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 4,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 5,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 6,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 7,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 8,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 9,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 10,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 11,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 12,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 13,
+        "ilosc": 0.0
+      },
+      {
+        "id_sekcji": 14,
+        "ilosc": 0.0
+      }
+    ]
+  }
+]
