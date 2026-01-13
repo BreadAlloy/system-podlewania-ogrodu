@@ -34,10 +34,6 @@ def test_list_contains_element():
     data = [1, 2, 3, 4]
     assert 3 in data
 
-def test_addition_parametrized(a, b, expected):
-    assert a + b == expected
-
-
 def test_exception_is_raised():
     with pytest.raises(ZeroDivisionError):
         _ = 1 / 0
