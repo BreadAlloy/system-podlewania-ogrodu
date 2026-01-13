@@ -323,28 +323,28 @@ class plan_podlewania:
         self.zapisz_programy_do_pliku();
 
     # dodaj program i zintegruj jego bloku z pozostałymi
-    def dodaj_program(self, nazwa_programu: str, nowy_program: program_podlewania): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
-        if(nazwa_programu in self.programy.keys()): # nazwa musi byc unikatowa
+    def dodaj_program(self, nowy_program: program_podlewania): # Nie jestem pewnien czy dodać defaultowy program i potem go modyfikować czy podać jako argument nowy program
+        if(nowy_program.nazwa_programu in self.programy.keys()): # nazwa musi byc unikatowa
             print("Program nie ma nazwy unikatowej"); return;
-        assert(nazwa_programu == nowy_program.nazwa_programu); 
 
         nowy_program.czy_poprawny();
-        self.programy[nazwa_programu] = nowy_program;
+        self.programy[nowy_program.nazwa_programu] = nowy_program;
+        self.programy = dict(sorted(self.programy.items()));
         nowe_bloki = nowy_program.daj_ProgramBlocki();
         for blok in nowe_bloki:
             heapq.heappush(self.przyszle_ProgramBloki, blok);
         self.zapisz_programy_do_pliku();
 
 
-    def zmodyfikuj_program(self, nazwa_programu : str, nowy_program):
+    def zmodyfikuj_program(self, nowy_program : program_podlewania):
         # będzie usuwać wszystkie małe(te robione w kalendarzu, jednorazowe) modyfikacje dla danego programu
         # agresywnie usuwa stary program, może by nie musiał
-        if(nazwa_programu not in self.programy.keys()):
+        if(nowy_program.nazwa_programu not in self.programy.keys()):
             print("Jest juz program z taka nazwa"); return;
 
         assert(nowy_program.czy_poprawny());
-        self.usun_program(program_podlewania.nazwa_programu, program_podlewania);
-        self.dodaj_program(program_podlewania.nazwa_programu, program_podlewania);
+        self.usun_program(nowy_program.nazwa_programu);
+        self.dodaj_program(nowy_program);
 
     # zwraca sekcje która ma być aktywna, albo None jeśli wszystkie mają być wyłączone
     def update(self, wodamierz : wodomierz) -> int|None:
@@ -399,7 +399,7 @@ class plan_podlewania:
             for p in program_dicty:
                 przeczytany_program = program_podlewania();
                 przeczytany_program.from_dict(p);
-                self.dodaj_program(przeczytany_program.nazwa_programu, przeczytany_program);
+                self.dodaj_program(przeczytany_program);
 
 def get_biezace_programy_podlewania() -> dict[str, program_podlewania]:
     plan = plan_podlewania();
