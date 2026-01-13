@@ -64,12 +64,10 @@ class Command(BaseCommand):
                     self.plan.usun_program(odebrane[1]);
 
                 elif(odebrane[0].kod == kody_komunikatow.ZMODYFIKUJ_PROGRAM):
-                    print(odebrane[1])
-                    self.plan.zmodyfikuj_program(odebrane[1].nazwa_programu,odebrane[1]);
+                    self.plan.zmodyfikuj_program(odebrane[1]);
 
                 elif(odebrane[0].kod == kody_komunikatow.DODAJ_PROGRAM):
-                    print(odebrane[1])
-                    self.plan.dodaj_program(odebrane[1].nazwa_programu,odebrane[1]);
+                    self.plan.dodaj_program(odebrane[1]);
 
                 else:
                     print("Cos tu nie tak");
