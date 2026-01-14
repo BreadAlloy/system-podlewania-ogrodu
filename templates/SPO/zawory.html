@@ -1,14 +1,14 @@
 {% extends "SPO/base.html" %}
 
 {% block headers %}
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script> <!-- Aktualnie odniesienie do skryptu, może być zamienione na instalację htmx'a -->
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script><!-- Aktualnie odniesienie do skryptu, może być zamienione na instalację htmx'a -->
 <!-- <title>System Podlewania Ogrodu</title> -->
 <meta http-equiv="refresh" content="240;{% url 'afk' %}" /> <!-- afk timeout -->
 {% endblock headers %}
 
-{% block content %}
-<h1>Zawory</h1>
+{% block title%}Zawory{% endblock title%}
 
+{% block content %}
 <div hx-get="{% url 'wodomierz' %}" hx-trigger="load, every 1s">
     Pobieranie danych wodomierza...
 </div>
@@ -18,9 +18,10 @@
 </div>
 
 <ul>
-<form action="{% url 'program_create' %}">
-    <button type="submit" style="padding:8px 12px;font-size:14px;box-shadow:2px 2px 12px 0px rgba(0,0,0,0.15);">Nowy</button>
-</form>
+    <form action="{% url 'program_create' %}">
+        <button type="submit"
+            style="padding:8px 12px;font-size:14px;box-shadow:2px 2px 12px 0px rgba(0,0,0,0.15);">Nowy</button>
+    </form>
 </ul>
 
 <h3>Oto zawory:</h3>
@@ -28,11 +29,11 @@
 <ul>
     {% for zawor in zawory %}
     <div>
-    <form action="{% url 'switch' zawor.id %}" method="post">
-    {% csrf_token %}
-    {{zawor.real_id}} {% if zawor.status == True%} 🟩 {% else %} 🟥 {% endif %}
-    <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Przełącz</button>
-    </form>
+        <form action="{% url 'switch' zawor.id %}" method="post">
+            {% csrf_token %}
+            {{zawor.real_id}} {% if zawor.status == True%} 🟩 {% else %} 🟥 {% endif %}
+            <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Przełącz</button>
+        </form>
     </div>
     {% endfor %}
 </ul>

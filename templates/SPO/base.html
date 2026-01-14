@@ -8,6 +8,11 @@
         
         {% block headers %}{% endblock headers %}
     <body>
+        <div style="text-align: center;">
+            <img src="{% static 'images/SPO_logo.png' %}" style="width: 10em;">
+            <h1>{% block title %}{% endblock title %}</h1>
+        </div>
+        
         {% block content %}{% endblock content %}
     </body>
 </html>
