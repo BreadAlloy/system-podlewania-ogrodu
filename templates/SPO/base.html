@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>System Podlewania Ogrodu</title>
+
+        {% load static %}
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
+        
+        {% block headers %}{% endblock headers %}
+    <body>
+        <div>
+            <img src="{% static 'images/SPO_logo.png' %}" style="width: 10em; display: inline; margin-right: 2rem;">
+            <i style="display: inline; font-size: 7rem;">{% block title %}{% endblock title %}</i>
+        </div>
+        
+        {% block content %}{% endblock content %}
+    </body>
+</html>

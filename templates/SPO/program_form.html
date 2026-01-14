@@ -1,3 +1,8 @@
+{% extends "SPO/base.html" %}
+
+{% block title %}Edytuj program{% endblock title %}
+
+{% block content %}
 <form action="{% url 'zawory' %}" method="get">
 {% csrf_token %}
 <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Wróć</button>
@@ -9,3 +14,4 @@
 
     <button type="submit" style="box-shadow:1px 2px 8px -1px rgba(0,0,0,0.15);">Zapisz Program</button>
 </form>
+{% endblock content %}
