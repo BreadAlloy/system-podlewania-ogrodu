@@ -8,9 +8,9 @@
         
         {% block headers %}{% endblock headers %}
     <body>
-        <div style="text-align: center;">
-            <img src="{% static 'images/SPO_logo.png' %}" style="width: 10em;">
-            <h1>{% block title %}{% endblock title %}</h1>
+        <div>
+            <img src="{% static 'images/SPO_logo.png' %}" style="width: 10em; display: inline; margin-right: 2rem;">
+            <i style="display: inline; font-size: 7rem;">{% block title %}{% endblock title %}</i>
         </div>
         
         {% block content %}{% endblock content %}
