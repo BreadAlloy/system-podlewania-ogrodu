@@ -1,12 +1,10 @@
-<head>
-<title>System Podlewania Ogrodu</title>
-    <h1>
-        Jesteś afk.
-    </h1>
-</head>
-<body>
-    <form action={% url "zawory" %} method="get">
-        {% csrf_token %}
-        <button type="submit" style="width:120px;height:60px;">Wróciłem</button>
-    </form>
-</body>
+{% extends "SPO/base.html" %}
+
+{% block title %}Jesteś afk...{% endblock title %}
+
+{% block content %}
+<form action={% url "zawory" %} method="get">
+    {% csrf_token %}
+    <button type="submit" style="width:11em;height:6em;">Wróciłem</button>
+</form>
+{% endblock content %}

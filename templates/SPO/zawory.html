@@ -6,7 +6,7 @@
 <meta http-equiv="refresh" content="240;{% url 'afk' %}" /> <!-- afk timeout -->
 {% endblock headers %}
 
-{% block title%}Zawory{% endblock title%}
+{% block title %}Zawory{% endblock title %}
 
 {% block content %}
 <div hx-get="{% url 'wodomierz' %}" hx-trigger="load, every 1s">
